@@ -1,5 +1,5 @@
 export async function subscribeToKlaviyo(email: string): Promise<void> {
-  const apiKey = process.env.KLAVIYO_PRIVATE_KEY
+  const apiKey = process.env.KLAVIYO_API_KEY
   const listId = process.env.KLAVIYO_LIST_ID
 
   if (!apiKey || !listId) {
@@ -14,7 +14,7 @@ export async function subscribeToKlaviyo(email: string): Promise<void> {
     method: 'POST',
     headers: {
       Authorization: `Klaviyo-API-Key ${apiKey}`,
-      revision: '2024-07-15',
+      revision: '2024-10-15',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
