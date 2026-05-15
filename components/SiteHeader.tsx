@@ -1,0 +1,28 @@
+import Image from 'next/image'
+
+export default function SiteHeader() {
+  return (
+    <header className="site-header">
+      <nav className="header-nav" aria-label="Primary">
+        <a href="#">Shop</a>
+        <a href="#">The Wardrobe</a>
+        <a href="#">Journal</a>
+      </nav>
+      <div className="header-logo">
+        <Image
+          src="/assets/WAER_Wordmark_Black.png"
+          alt="WAER"
+          width={3000}
+          height={734}
+          style={{ height: 20, width: 'auto' }}
+          priority
+        />
+      </div>
+      <nav className="header-utils" aria-label="Utility">
+        <a href="#">Search</a>
+        <a href="#">Account</a>
+        <a href="#">Bag (0)</a>
+      </nav>
+    </header>
+  )
+}

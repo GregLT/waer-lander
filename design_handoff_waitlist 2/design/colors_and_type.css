@@ -1,0 +1,265 @@
+/* ============================================================
+   WAER — Colors & Type foundations
+   Consume in any surface via: <link rel="stylesheet" href="colors_and_type.css">
+   ============================================================ */
+
+/* ---------- Real brand fonts ---------- */
+@font-face {
+  font-family: "F37 Ginger";
+  src: url("fonts/F37Ginger-Regular.otf") format("opentype");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "TO Leaf";
+  src: url("fonts/ToLeaf-Regular.otf") format("opentype");
+  font-weight: 300 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Brand color tokens ---------- */
+:root {
+  /* Core neutrals — the atmospheric background of the whole brand */
+  --waer-core-grey: #EBE6E0;   /* warm off-white; primary surface */
+  --waer-white:     #FFFFFF;
+  --waer-ink:       #111111;   /* not true black — slightly warm */
+  --waer-ink-soft:  #2A2724;   /* body copy on core grey */
+
+  /* Fragrance family palette — paired duotone system */
+  --waer-floral:        #E050B0;
+  --waer-fougere:       #8CB07D;
+  --waer-chypre:        #607078;
+  --waer-woody:         #761205;
+  --waer-citrus:        #D8E040;
+  --waer-gourmand:      #E8A840;
+  --waer-fruity:        #E87848;
+  --waer-fresh:         #4A90C8;
+  --waer-spicy:         #E82020;
+  --waer-musk:          #D4A090;
+  --waer-ozonic:        #60B0E0;
+  --waer-green:         #1A5030;
+  --waer-moss:          #68A850;
+  --waer-aromatic:      #A8C870;
+  --waer-leather:       #B09078;
+  --waer-dry:           #B8B098;
+  --waer-aldehydic:     #387888;
+  --waer-tropical:      #40C8A0;
+  --waer-vanilla:       #F0D080;
+  --waer-amber:         #B06820;
+  --waer-white-floral:  #F8F0F4;
+  --waer-powdery:       #C8B8B0;
+
+  /* Semantic foreground / background aliases */
+  --bg:        var(--waer-core-grey);
+  --bg-alt:    var(--waer-white);
+  --bg-inverse: var(--waer-ink);
+
+  --fg:        var(--waer-ink);
+  --fg-soft:   var(--waer-ink-soft);
+  --fg-muted:  #6F6A64;
+  --fg-onInverse: var(--waer-core-grey);
+
+  --rule:      rgba(17, 17, 17, 0.14);   /* hairline on core grey */
+  --rule-soft: rgba(17, 17, 17, 0.08);
+
+  /* ---------- Type tokens ---------- */
+  --font-display: "F37 Ginger", "Roboto Serif", Georgia, serif;
+  --font-body:    "TO Leaf", "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+
+  /* Scale — centered typography with generous air.
+     Guideline: -0.5% tracking on display, 0% on body, leading +4% of size */
+  --lead-tight:  1.04;
+  --lead-normal: 1.12;
+  --lead-body:   1.5;
+
+  --track-display: -0.005em;   /* -0.5% */
+  --track-body:    0em;
+  --track-allcaps: 0.02em;     /* slight opening for all-caps display */
+
+  /* Sizes — fluid but capped */
+  --fs-display-xl: clamp(64px, 9vw, 168px);   /* hero / full-bleed */
+  --fs-display-l:  clamp(48px, 6vw, 104px);   /* section openers */
+  --fs-display-m:  clamp(36px, 4vw, 64px);    /* large titles */
+  --fs-display-s:  clamp(28px, 2.4vw, 40px);  /* small titles */
+  --fs-eyebrow:    13px;                      /* upper-case labels */
+  --fs-body-l:     19px;                      /* long-form lead */
+  --fs-body:       16px;
+  --fs-body-s:     14px;
+  --fs-caption:    12px;
+
+  /* Spacing (8px base, with a fine 4px step) */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 144px;
+
+  /* Radii — minimal. WAER is flat + rectilinear; only pills/buttons round. */
+  --radius-0: 0px;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-pill: 999px;
+
+  /* Borders */
+  --border-hair: 1px solid var(--rule);
+  --border-ink:  1px solid var(--waer-ink);
+
+  /* Elevation — WAER barely uses shadows. Use sparingly. */
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(17,17,17,0.04), 0 4px 12px rgba(17,17,17,0.04);
+  --shadow-2: 0 8px 32px rgba(17,17,17,0.08);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);    /* smooth default */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);       /* content enter */
+  --ease-in:  cubic-bezier(0.6, 0, 0.8, 0.2);
+  --dur-fast: 160ms;
+  --dur: 260ms;
+  --dur-slow: 520ms;
+}
+
+/* ============================================================
+   Base element styles
+   ============================================================ */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lead-body);
+  letter-spacing: var(--track-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display titles — always uppercase, centered by default in hero use */
+h1, h2, h3, .h-display {
+  font-family: var(--font-display);
+  font-weight: 500;              /* F37 Ginger is medium/regular in lockups */
+  letter-spacing: var(--track-display);
+  line-height: var(--lead-tight);
+  color: var(--fg);
+  margin: 0;
+  text-transform: uppercase;     /* primary typeface is reserved for titles, uppercase */
+  font-style: normal;
+}
+
+h1, .h1 {
+  font-size: var(--fs-display-l);
+  letter-spacing: var(--track-display);
+}
+h2, .h2 { font-size: var(--fs-display-m); }
+h3, .h3 {
+  font-size: var(--fs-display-s);
+  line-height: var(--lead-normal);
+}
+
+/* Extra-large hero */
+.h-hero {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--fs-display-xl);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* Eyebrow / small-caps label */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--fg-soft);
+}
+
+/* Body copy — secondary typeface, sentence case */
+p, .p {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lead-body);
+  color: var(--fg-soft);
+  margin: 0 0 1em 0;
+  max-width: 62ch;
+}
+.p-lead {
+  font-size: var(--fs-body-l);
+  line-height: 1.45;
+  color: var(--fg);
+}
+.p-small { font-size: var(--fs-body-s); }
+.caption {
+  font-size: var(--fs-caption);
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Links — minimal underline on hover, inherit color */
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+a:hover { opacity: 0.6; }
+
+/* Rules */
+hr {
+  border: 0;
+  border-top: var(--border-hair);
+  margin: var(--space-7) 0;
+}
+
+/* Numeric vial labels — e.g. n.01 */
+.vial-number {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-s);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--fg);
+  font-weight: 400;
+}
+
+/* Utility: centered text block (brand default for display) */
+.center { text-align: center; }
+
+/* Button primitive (minimal, underlined or ink-filled) */
+.btn {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-s);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 28px;
+  border: 1px solid var(--waer-ink);
+  background: transparent;
+  color: var(--waer-ink);
+  cursor: pointer;
+  border-radius: var(--radius-0);
+  transition: background var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+.btn:hover { background: var(--waer-ink); color: var(--waer-core-grey); }
+.btn:active { transform: translateY(1px); }
+
+.btn-filled {
+  background: var(--waer-ink);
+  color: var(--waer-core-grey);
+}
+.btn-filled:hover { background: transparent; color: var(--waer-ink); }
+
+.btn-pill {
+  border-radius: var(--radius-pill);
+  padding: 10px 22px;
+}
