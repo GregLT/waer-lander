@@ -523,19 +523,6 @@ button:active { transform: translateY(1px); }
   color: var(--fg-muted);
   text-align: right;
 }
-.manifesto-row--featured .row-title {
-  font-size: clamp(32px, 3.6vw, 52px);
-  color: #7A1A1A;
-  font-weight: 700;
-  line-height: 1;
-}
-.manifesto-row--featured .row-desc {
-  font-size: 16px;
-  color: var(--waer-ink);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
 
 /* ─── Pull quote ─────────────────────────────────────────── */
 .pull {
