@@ -39,7 +39,7 @@ export default function Hero() {
             </div>
           </div>
         </div>
-        <div aria-hidden="true" />
+        <div className="hero-img" aria-hidden="true" />
       </div>
     </section>
   )
