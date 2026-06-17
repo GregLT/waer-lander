@@ -3,11 +3,7 @@ import Image from 'next/image'
 export default function SiteHeader() {
   return (
     <header className="site-header">
-      <nav className="header-nav" aria-label="Primary">
-        <a href="#">Shop</a>
-        <a href="#">The Wardrobe</a>
-        <a href="#">Journal</a>
-      </nav>
+      <div className="header-nav" />
       <div className="header-logo">
         <Image
           src="/assets/WAER_Wordmark_Black.png"
