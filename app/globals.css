@@ -704,7 +704,7 @@ footer {
   .header-nav { display: none; }
 
   .hero {
-    padding: 64px 24px 80px;
+    padding: 24px 24px 48px;
     min-height: 0;
   }
   .hero-grid { grid-template-columns: 1fr; gap: 32px; }
