@@ -19,7 +19,7 @@ const toLeaf = localFont({
 export const metadata: Metadata = {
   title: 'WAER — Join the wardrobe',
   description:
-    "Fifteen scents. One considered rotation. Join the WAER founding waitlist for A/W '26.",
+    "Fourteen scents. One considered rotation. Join the WAER founding waitlist for A/W '26.",
   icons: { icon: '/assets/favicon-grey-black.png' },
   openGraph: {
     title: 'WAER — Join the wardrobe',

@@ -8,7 +8,6 @@ export default function SiteFooter() {
         <h3>We look forward to seeing your rotations.</h3>
         <div className="footer-sign">
           <WaitlistForm variant="footer" submitLabel="Join →" successLabel="Added." />
-          <span className="footer-fine-text">No launch blasts. One letter when doors open.</span>
         </div>
       </div>
 

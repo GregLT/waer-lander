@@ -1,7 +1,7 @@
 const rows = [
   {
     num: 'n.01',
-    title: 'One case. Fifteen moods.',
+    title: 'One case. Fourteen moods.',
     desc: 'A single refillable case, debossed with the monogram. Vials seat in, vials swap out. Carried like a decision — changed like an outfit.',
     tag: 'The object',
   },

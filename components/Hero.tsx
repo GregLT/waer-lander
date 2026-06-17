@@ -16,7 +16,7 @@ export default function Hero() {
             WAER is the first fragrance wardrobe designed to be layered and rotated — so one
             scent never has to cover every mood.{' '}
             <strong>Your morning isn&rsquo;t your evening.</strong> Your Tuesday isn&rsquo;t
-            your Saturday. Fifteen named scents. One considered rotation.
+            your Saturday. Fourteen named scents. One considered rotation.
           </p>
           <div className="hero-check">
             <span className="tick" aria-hidden="true">✓</span>
