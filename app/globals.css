@@ -702,6 +702,19 @@ footer {
 
   .hero-grid { grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { padding: 48px 24px 64px; max-width: 100%; }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(235, 230, 224, 0.82) 0%,
+      rgba(235, 230, 224, 0.55) 60%,
+      rgba(235, 230, 224, 0) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
 
