@@ -704,11 +704,11 @@ footer {
   .header-nav { display: none; }
 
   .hero {
-    padding: 24px 24px 64px;
+    padding: 64px 24px 80px;
     min-height: 0;
   }
-  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
-  .hero-img { order: -1; min-height: 280px; border-radius: 4px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero-img { display: none; }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
 
