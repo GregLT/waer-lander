@@ -14,7 +14,7 @@ interface Props {
 export default function WaitlistForm({
   variant,
   submitLabel = 'Request access →',
-  successLabel = "You're in. Check your inbox.",
+  successLabel = "You're on the waitlist!",
   onSuccess,
 }: Props) {
   const [email, setEmail] = useState('')
@@ -28,20 +28,20 @@ export default function WaitlistForm({
     setSubmitting(true)
 
     try {
-      const res = await fetch('/api/subscribe', {
+      const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
-      const data = (await res.json()) as { success?: boolean; error?: string }
+      const data = (await res.json()) as { ok?: boolean; position?: number; error?: string }
 
-      if (!data.success) {
+      if (!data.ok) {
         setError(data.error ?? 'Something went wrong.')
         return
       }
 
       setSubmitted(true)
-      onSuccess?.(0)
+      onSuccess?.(data.position ?? 0)
     } catch {
       setError('Something went wrong.')
     } finally {
