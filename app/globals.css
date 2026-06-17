@@ -387,6 +387,18 @@ button:active { transform: translateY(1px); }
   text-transform: uppercase;
 }
 
+.duotone-caption {
+  text-align: center;
+  font-family: var(--font-body, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--rule);
+  margin: 0;
+}
+
 /* ─── Join section ───────────────────────────────────────── */
 .join {
   display: grid;

@@ -11,20 +11,23 @@ const cells = [
 
 export default function DuotoneStrip() {
   return (
-    <div className="duotone-strip" aria-hidden="true">
-      {cells.map((c) => (
-        <div key={c.label} className="duotone-cell" style={{ background: c.bg }}>
-          <span
-            className="duotone-wm"
-            style={{ color: c.wm, mixBlendMode: c.wmBlend as React.CSSProperties['mixBlendMode'] }}
-          >
-            WAER
-          </span>
-          <span className="duotone-tag" style={{ color: c.tag }}>
-            {c.label}
-          </span>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="duotone-strip" aria-hidden="true">
+        {cells.map((c) => (
+          <div key={c.label} className="duotone-cell" style={{ background: c.bg }}>
+            <span
+              className="duotone-wm"
+              style={{ color: c.wm, mixBlendMode: c.wmBlend as React.CSSProperties['mixBlendMode'] }}
+            >
+              WAER
+            </span>
+            <span className="duotone-tag" style={{ color: c.tag }}>
+              {c.label}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="duotone-caption">No two wardrobes are the same.</p>
+    </>
   )
 }

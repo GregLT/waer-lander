@@ -13,7 +13,7 @@ export default function Hero() {
             Your scent wardrobe. <em>Finally.</em>
           </h1>
           <p className="hero-lede">
-            One scent was never enough.<br /><br />Curate. Layer. Rotate.
+            One scent can&rsquo;t carry your whole life.<br /><br />Curate. Layer. Rotate.
           </p>
           <WaitlistForm variant="hero" submitLabel="Reserve access →" />
           <div className="hero-social">

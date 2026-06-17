@@ -5,7 +5,7 @@ export default function Strap() {
       <h2>
         FOURTEEN SCENTS.
         <br />
-        ONE WARDROBE.
+        NO SIGNATURE.
       </h2>
       <p className="strap-lede">
         Curated to be layered, rotated and collected.

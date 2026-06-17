@@ -17,11 +17,9 @@ export default function JoinSection() {
       <div className="join-form-pane">
         <h2>Join the list.</h2>
         <p>
-          We&rsquo;re releasing WAER to a small group first.<br /><br />
-          Not retailers.<br /><br />
-          Not department stores.<br /><br />
-          Not everyone.<br /><br />
-          First access starts here.
+          One scent no longer covers it all.<br /><br />
+          Join the first members.<br /><br />
+          A/W &rsquo;26.
         </p>
         <WaitlistForm
           variant="join"

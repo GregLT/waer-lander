@@ -1,25 +1,25 @@
 const rows = [
   {
     num: 'K.01',
-    title: 'One case. Fourteen moods.',
-    desc: 'One case designed to adapt.',
+    title: 'ONE CASE.<br />FOURTEEN MOODS.',
+    desc: 'For the version of you showing up today.',
     tag: 'The object',
   },
   {
     num: 'K.02',
-    title: 'Paired. Not signed.',
-    desc: 'Curate, layer and rotate.',
+    title: 'NO SIGNATURE.<br />JUST ROTATION.',
+    desc: 'Curate. Layer. Rotate.',
     tag: 'The system',
   },
   {
     num: 'K.03',
-    title: 'Ten millilitres. Full-bodied.',
-    desc: 'Made for life in motion.',
+    title: 'TEN MILLILITRES.<br />FULL-BODIED.',
+    desc: 'Made to move with you.',
     tag: 'The vial',
   },
   {
     num: 'K.04',
-    title: 'Refillable. By design.',
+    title: 'REFILLABLE.<br />BY DESIGN.',
     desc: 'Less waste. More wardrobe.',
     tag: 'The principle',
   },
@@ -36,7 +36,7 @@ export default function Manifesto() {
         {rows.map((r) => (
           <div key={r.num} className="manifesto-row">
             <div className="row-num">{r.num}</div>
-            <div className="row-title">{r.title}</div>
+            <div className="row-title" dangerouslySetInnerHTML={{ __html: r.title }} />
             <div className="row-desc" dangerouslySetInnerHTML={{ __html: r.desc }} />
             <div className="row-tag">{r.tag}</div>
           </div>
