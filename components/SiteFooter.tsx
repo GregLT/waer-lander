@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="footer-cta">
         <h3>We look forward to seeing your rotations.</h3>
         <div className="footer-sign">
-          <WaitlistForm variant="footer" submitLabel="Join →" successLabel="Added." />
+          <WaitlistForm variant="footer" submitLabel="Join →" successLabel="You're on the waitlist!" />
         </div>
       </div>
 
