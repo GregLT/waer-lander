@@ -18,11 +18,7 @@ export default function SiteHeader() {
           priority
         />
       </div>
-      <nav className="header-utils" aria-label="Utility">
-        <a href="#">Search</a>
-        <a href="#">Account</a>
-        <a href="#">Bag (0)</a>
-      </nav>
+      <div className="header-utils" />
     </header>
   )
 }
