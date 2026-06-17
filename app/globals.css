@@ -91,11 +91,8 @@ button:active { transform: translateY(1px); }
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 22px 36px;
-  position: sticky;
-  top: 0;
-  background: var(--waer-core-grey);
-  z-index: 10;
-  border-bottom: 1px solid var(--rule-soft);
+  background: #9ABDD4;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 .header-nav { display: flex; gap: 28px; }
 .header-nav a, .header-utils a {
