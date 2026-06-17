@@ -12,41 +12,7 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <div className="footer-cols">
-        <div>
-          <h5>WAER</h5>
-          <p>
-            A considered collection of fragrances designed to be styled, layered and rotated.
-            Curate. Layer. Rotate.
-          </p>
-        </div>
-        <div>
-          <h5>Follow</h5>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">Substack</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5>About</h5>
-          <ul>
-            <li><a href="#">Our story</a></li>
-            <li><a href="#">Perfumers</a></li>
-            <li><a href="#">Journal</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5>Support</h5>
-          <ul>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Shipping</a></li>
-            <li><a href="#">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="footer-wm">
+<div className="footer-wm">
         <Image
           src="/assets/WAER_Wordmark_White.png"
           alt="WAER"
