@@ -5,7 +5,6 @@ import DuotoneStrip from '@/components/DuotoneStrip'
 import JoinSection from '@/components/JoinSection'
 import Manifesto from '@/components/Manifesto'
 import PullQuote from '@/components/PullQuote'
-import FAQSection from '@/components/FAQSection'
 import SiteFooter from '@/components/SiteFooter'
 
 export default function Page() {
@@ -19,7 +18,6 @@ export default function Page() {
         <JoinSection />
         <Manifesto />
         <PullQuote />
-        <FAQSection />
       </main>
       <SiteFooter />
     </>

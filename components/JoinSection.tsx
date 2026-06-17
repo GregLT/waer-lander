@@ -15,7 +15,6 @@ export default function JoinSection() {
   return (
     <section className="join">
       <div className="join-form-pane">
-        <div className="eyebrow">Founding Rotation</div>
         <h2>Join the list.</h2>
         <p>
           We&rsquo;re letting a small group in first — to pair, layer and rotate before the
