@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="footer-cta">
         <h3>We look forward to seeing your rotations.</h3>
         <div className="footer-sign">
-          <WaitlistForm variant="footer" submitLabel="Join →" successLabel="You're on the waitlist!" />
+          <WaitlistForm variant="footer" submitLabel="Reserve access →" successLabel="You're on the waitlist!" />
         </div>
       </div>
 
@@ -23,7 +23,7 @@ export default function SiteFooter() {
 
       <div className="footer-fine-bar">
         <span>© WAER 2026 — Made in France</span>
-        <span>n.01 → n.15</span>
+        <span>K.01 → K.14</span>
       </div>
     </footer>
   )

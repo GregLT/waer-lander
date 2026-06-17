@@ -7,20 +7,15 @@ export default function Hero() {
         <div className="hero-copy">
           <span className="hero-pill">
             <span className="dot" aria-hidden="true" />
-            Launching A/W &rsquo;26 — 1,000+ already on the list
+            A/W &rsquo;26 &bull; 1,000+ FOUNDING MEMBERS
           </span>
           <h1>
             Your scent wardrobe. <em>Finally.</em>
           </h1>
           <p className="hero-lede">
-            One scent was never enough. Meet WAER. Fourteen fragrances designed to be layered,
-            rotated and worn your way.
+            One scent was never enough.<br /><br />Curate. Layer. Rotate.
           </p>
-          <div className="hero-check">
-            <span className="tick" aria-hidden="true">✓</span>
-            Join the waitlist for priority access and a little something extra at launch.
-          </div>
-          <WaitlistForm variant="hero" submitLabel="Join the waitlist →" />
+          <WaitlistForm variant="hero" submitLabel="Reserve access →" />
           <div className="hero-social">
             <div className="hero-avatars" aria-hidden="true">
               <span className="av" style={{ background: '#761205' }} />
@@ -30,7 +25,7 @@ export default function Hero() {
               <span className="av" style={{ background: '#607078' }} />
             </div>
             <div>
-              <strong>1,000+ on the waitlist.</strong>
+              <strong>1,000+ founding members.</strong>
               <span className="hero-social-sub">
                 Joining from London, Manchester, Bristol and beyond.
               </span>

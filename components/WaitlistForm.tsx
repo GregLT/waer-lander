@@ -13,7 +13,7 @@ interface Props {
 
 export default function WaitlistForm({
   variant,
-  submitLabel = 'Request access →',
+  submitLabel = 'Reserve access →',
   successLabel = "You're on the waitlist!",
   onSuccess,
 }: Props) {

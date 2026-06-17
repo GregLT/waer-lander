@@ -1,26 +1,26 @@
 const rows = [
   {
-    num: 'n.01',
+    num: 'K.01',
     title: 'One case. Fourteen moods.',
-    desc: 'A single refillable case, debossed with the monogram. Vials seat in, vials swap out. Carried like a decision — changed like an outfit.',
+    desc: 'One case designed to adapt.',
     tag: 'The object',
   },
   {
-    num: 'n.02',
-    title: 'Paired, not signed.',
-    desc: 'Every scent belongs to two olfactory families — a duotone, not a monogram. Wear one. Layer two. Rotate through the week.',
+    num: 'K.02',
+    title: 'Paired. Not signed.',
+    desc: 'Curate, layer and rotate.',
     tag: 'The system',
   },
   {
-    num: 'n.03',
+    num: 'K.03',
     title: 'Ten millilitres. Full-bodied.',
-    desc: 'Our signature vial format. Portable, refillable, long-lasting. Developed with perfumers in Grasse — made in France, built to last.',
+    desc: 'Made for life in motion.',
     tag: 'The vial',
   },
   {
-    num: 'n.04',
-    title: 'Refillable by design.',
-    desc: 'Buy the case once. The scents rotate. No throwaway glass, no drawers of half-finished bottles — only the part you&rsquo;re wearing today.',
+    num: 'K.04',
+    title: 'Refillable. By design.',
+    desc: 'Less waste. More wardrobe.',
     tag: 'The principle',
   },
 ]

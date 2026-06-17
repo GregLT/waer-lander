@@ -17,27 +17,29 @@ export default function JoinSection() {
       <div className="join-form-pane">
         <h2>Join the list.</h2>
         <p>
-          We&rsquo;re letting a small group in first — to pair, layer and rotate before the
-          doors open to anyone else. No launch emails. No countdowns. One note when your vials
-          are ready.
+          We&rsquo;re releasing WAER to a small group first.<br /><br />
+          Not retailers.<br /><br />
+          Not department stores.<br /><br />
+          Not everyone.<br /><br />
+          First access starts here.
         </p>
         <WaitlistForm
           variant="join"
+          submitLabel="Reserve access →"
           onSuccess={(position) => setCount(prev => position > prev ? position : prev + 1)}
         />
-        <div className="form-fine">We only write when it matters. Unsubscribe any time.</div>
         <div className="waitlist-meta">
           <div>
             <span className="meta-num">{formatCount(count)}</span>
-            <span className="meta-lbl">On the list</span>
+            <span className="meta-lbl">FOUNDING MEMBERS</span>
           </div>
           <div>
             <span className="meta-num">14</span>
-            <span className="meta-lbl">Named scents</span>
+            <span className="meta-lbl">SCENTS</span>
           </div>
           <div>
             <span className="meta-num">A/W &rsquo;26</span>
-            <span className="meta-lbl">Doors open</span>
+            <span className="meta-lbl">FIRST DROP</span>
           </div>
         </div>
       </div>

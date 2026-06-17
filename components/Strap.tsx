@@ -1,18 +1,14 @@
 export default function Strap() {
   return (
     <section className="strap">
-      <div className="eyebrow">The Waitlist</div>
+      <div className="eyebrow">The Wardrobe</div>
       <h2>
-        Fourteen scents.
+        FOURTEEN SCENTS.
         <br />
-        One considered
-        <br />
-        rotation.
+        ONE WARDROBE.
       </h2>
       <p className="strap-lede">
-        Your morning isn&rsquo;t your evening. Your Tuesday isn&rsquo;t your Saturday. A
-        wardrobe of fragrance — styled, layered and rotated, matched to mood, moment and
-        season. Doors open this autumn. First access is earned, not bought.
+        Curated to be layered, rotated and collected.
       </p>
     </section>
   )
