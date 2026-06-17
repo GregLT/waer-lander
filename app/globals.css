@@ -112,22 +112,20 @@ button:active { transform: translateY(1px); }
 /* ─── Hero ───────────────────────────────────────────────── */
 .hero {
   position: relative;
-  background: #B4CEDF;
+  background: url('/assets/waer_lander.png') right center / cover no-repeat, #9ABDD4;
   color: var(--waer-ink);
-  padding: 0;
   overflow: hidden;
 }
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  align-items: stretch;
   min-height: 680px;
   position: relative;
   z-index: 1;
 }
 .hero-copy {
-  max-width: 560px;
+  max-width: 580px;
   position: relative;
   z-index: 2;
   padding: 80px 56px 96px 56px;
@@ -135,9 +133,7 @@ button:active { transform: translateY(1px); }
   flex-direction: column;
   justify-content: center;
 }
-.hero-img {
-  background: url('/assets/waer_lander.png') right center / cover no-repeat;
-}
+.hero-img { display: none; }
 
 .hero-pill {
   display: inline-flex;
@@ -708,8 +704,7 @@ footer {
   .header-nav { display: none; }
 
   .hero-grid { grid-template-columns: 1fr; min-height: 0; }
-  .hero-copy { padding: 48px 24px 64px; }
-  .hero-img { display: none; }
+  .hero-copy { padding: 48px 24px 64px; max-width: 100%; }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
 
