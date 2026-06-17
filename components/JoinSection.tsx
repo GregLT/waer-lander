@@ -23,7 +23,7 @@ export default function JoinSection() {
         </p>
         <WaitlistForm
           variant="join"
-          onSuccess={(position) => setCount(position)}
+          onSuccess={(position) => setCount(prev => position > prev ? position : prev + 1)}
         />
         <div className="form-fine">We only write when it matters. Unsubscribe any time.</div>
         <div className="waitlist-meta">
