@@ -32,7 +32,7 @@ export default function JoinSection() {
             <span className="meta-lbl">On the list</span>
           </div>
           <div>
-            <span className="meta-num">15</span>
+            <span className="meta-num">14</span>
             <span className="meta-lbl">Named scents</span>
           </div>
           <div>

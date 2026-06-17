@@ -3,7 +3,7 @@ export default function Strap() {
     <section className="strap">
       <div className="eyebrow">The Waitlist</div>
       <h2>
-        Fifteen scents.
+        Fourteen scents.
         <br />
         One considered
         <br />

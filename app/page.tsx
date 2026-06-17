@@ -4,7 +4,6 @@ import Strap from '@/components/Strap'
 import DuotoneStrip from '@/components/DuotoneStrip'
 import JoinSection from '@/components/JoinSection'
 import Manifesto from '@/components/Manifesto'
-import PullQuote from '@/components/PullQuote'
 import SiteFooter from '@/components/SiteFooter'
 
 export default function Page() {
@@ -17,7 +16,6 @@ export default function Page() {
         <DuotoneStrip />
         <JoinSection />
         <Manifesto />
-        <PullQuote />
       </main>
       <SiteFooter />
     </>
