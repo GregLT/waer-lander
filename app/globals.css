@@ -113,25 +113,15 @@ button:active { transform: translateY(1px); }
 .hero {
   position: relative;
   min-height: 720px;
-  background:
-    url('/assets/product-detail-2.jpg') right center / cover no-repeat,
-    linear-gradient(180deg, #C97A1E 0%, #B0681F 100%);
+  background: linear-gradient(180deg, #C97A1E 0%, #B0681F 100%);
   color: var(--waer-ink);
   padding: 80px 56px 96px;
   overflow: hidden;
 }
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(201, 122, 30, 0.95) 0%,
-    rgba(201, 122, 30, 0.72) 32%,
-    rgba(201, 122, 30, 0.15) 55%,
-    rgba(201, 122, 30, 0) 70%
-  );
-  pointer-events: none;
+.hero-img {
+  background: url('/assets/product-detail-2.jpg') center / cover no-repeat;
+  border-radius: 4px;
+  min-height: 560px;
 }
 .hero-grid {
   display: grid;
@@ -714,20 +704,11 @@ footer {
   .header-nav { display: none; }
 
   .hero {
-    padding: 80px 24px 520px;
+    padding: 24px 24px 64px;
     min-height: 0;
-    background-position: center bottom;
-    background-size: 140% auto;
   }
-  .hero::before {
-    background: linear-gradient(
-      180deg,
-      rgba(201, 122, 30, 0.95) 0%,
-      rgba(201, 122, 30, 0.4) 55%,
-      rgba(201, 122, 30, 0) 100%
-    );
-  }
-  .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  .hero-img { order: -1; min-height: 280px; border-radius: 4px; }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
 
