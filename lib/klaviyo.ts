@@ -21,24 +21,39 @@ export async function subscribeToKlaviyo(email: string): Promise<void> {
       data: {
         type: 'profile-subscription-bulk-create-job',
         attributes: {
-          list_id: listId,
-          subscriptions: [
-            {
-              channels: { email: ['MARKETING'] },
-              email,
-            },
-          ],
+          profiles: {
+            data: [
+              {
+                type: 'profile',
+                attributes: {
+                  email,
+                  subscriptions: {
+                    email: {
+                      marketing: { consent: 'SUBSCRIBED' },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+        relationships: {
+          list: {
+            data: { type: 'list', id: listId },
+          },
         },
       },
     }),
   })
 
-  if (!res.ok) {
-    let detail = 'Klaviyo error'
-    try {
-      const err = await res.json() as { errors?: Array<{ detail?: string }> }
-      detail = err.errors?.[0]?.detail ?? detail
-    } catch { /* ignore */ }
-    throw new Error(detail)
-  }
+  if (res.status === 202 || res.ok) return
+
+  let detail = 'Klaviyo error'
+  try {
+    const err = await res.json() as { errors?: Array<{ detail?: string; code?: string }> }
+    const firstError = err.errors?.[0]
+    if (firstError?.code === 'duplicate_profile') return
+    detail = firstError?.detail ?? detail
+  } catch { /* ignore */ }
+  throw new Error(detail)
 }
