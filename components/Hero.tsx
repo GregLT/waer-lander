@@ -13,16 +13,14 @@ export default function Hero() {
             Your scent wardrobe. <em>Finally.</em>
           </h1>
           <p className="hero-lede">
-            WAER is the first fragrance wardrobe designed to be layered and rotated — so one
-            scent never has to cover every mood.{' '}
-            <strong>Your morning isn&rsquo;t your evening.</strong> Your Tuesday isn&rsquo;t
-            your Saturday. Fourteen named scents. One considered rotation.
+            One scent was never enough. Meet WAER. Fourteen fragrances designed to be layered,
+            rotated and worn your way.
           </p>
           <div className="hero-check">
             <span className="tick" aria-hidden="true">✓</span>
-            Founding members get priority access and an exclusive launch offer.
+            Join the waitlist for priority access and a little something extra at launch.
           </div>
-          <WaitlistForm variant="hero" />
+          <WaitlistForm variant="hero" submitLabel="Join the waitlist →" />
           <div className="hero-social">
             <div className="hero-avatars" aria-hidden="true">
               <span className="av" style={{ background: '#761205' }} />

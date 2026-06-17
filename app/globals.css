@@ -113,14 +113,13 @@ button:active { transform: translateY(1px); }
 .hero {
   position: relative;
   min-height: 720px;
-  background: linear-gradient(180deg, #C97A1E 0%, #B0681F 100%);
+  background: #B4CEDF;
   color: var(--waer-ink);
   padding: 80px 56px 96px;
   overflow: hidden;
 }
 .hero-img {
-  background: url('/assets/product-detail-2.jpg') center / cover no-repeat;
-  border-radius: 4px;
+  background: url('/assets/lander_hero.png') center / cover no-repeat;
   min-height: 560px;
 }
 .hero-grid {
@@ -140,14 +139,14 @@ button:active { transform: translateY(1px); }
   align-items: center;
   gap: 10px;
   padding: 8px 16px;
-  border: 1px solid rgba(17, 17, 17, 0.28);
+  border: 1px solid rgba(17, 17, 17, 0.18);
   border-radius: 999px;
   font-family: var(--font-body, sans-serif);
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--waer-ink);
-  background: rgba(235, 230, 224, 0.55);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
   margin-bottom: 36px;
 }
@@ -171,7 +170,7 @@ button:active { transform: translateY(1px); }
 }
 .hero-copy h1 em {
   font-style: italic;
-  color: var(--waer-woody);
+  color: #D43420;
   font-weight: 500;
 }
 .hero-lede {
@@ -214,7 +213,7 @@ button:active { transform: translateY(1px); }
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 2px solid #C97A1E;
+  border: 2px solid #B4CEDF;
   margin-left: -8px;
 }
 .hero-avatars .av:first-child { margin-left: 0; }
@@ -249,8 +248,8 @@ button:active { transform: translateY(1px); }
 .wf-hero input:focus { border-color: var(--waer-ink); }
 .wf-hero input::placeholder { color: var(--fg-muted); }
 .wf-hero button {
-  background: var(--waer-ink);
-  color: var(--waer-core-grey);
+  background: #D43420;
+  color: #ffffff;
   border: 0;
   border-radius: 999px;
   padding: 14px 26px;
