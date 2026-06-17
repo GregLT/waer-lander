@@ -6,7 +6,7 @@ import WaitlistForm from './WaitlistForm'
 const INITIAL_COUNT = 1284
 
 function formatCount(n: number) {
-  return `n.${n.toLocaleString('en-GB')}`
+  return n.toLocaleString('en-GB')
 }
 
 export default function JoinSection() {
