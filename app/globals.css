@@ -700,6 +700,11 @@ footer {
   }
   .header-nav { display: none; }
 
+  .hero {
+    background:
+      linear-gradient(rgba(235, 230, 224, 0.78), rgba(235, 230, 224, 0.78)),
+      url('/assets/waer_lander.png') 70% center / cover no-repeat;
+  }
   .hero-grid { grid-template-columns: 1fr; min-height: 0; }
   .hero-copy { padding: 48px 24px 64px; max-width: 100%; }
   .wf-hero { flex-direction: column; }
