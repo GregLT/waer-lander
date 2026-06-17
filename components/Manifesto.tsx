@@ -34,7 +34,7 @@ export default function Manifesto() {
       </section>
       <div className="manifesto-rows">
         {rows.map((r) => (
-          <div key={r.num} className="manifesto-row">
+          <div key={r.num} className={`manifesto-row${r.num === 'K.02' ? ' manifesto-row--featured' : ''}`}>
             <div className="row-num">{r.num}</div>
             <div className="row-title" dangerouslySetInnerHTML={{ __html: r.title }} />
             <div className="row-desc" dangerouslySetInnerHTML={{ __html: r.desc }} />

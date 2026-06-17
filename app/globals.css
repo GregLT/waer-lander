@@ -172,12 +172,14 @@ button:active { transform: translateY(1px); }
   font-weight: 500;
 }
 .hero-lede {
-  font-family: var(--font-body, sans-serif);
-  font-size: 17px;
-  line-height: 1.55;
-  color: rgba(17, 17, 17, 0.82);
-  margin: 0 0 28px;
-  max-width: 52ch;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.18;
+  color: var(--waer-ink);
+  margin: 0 0 32px;
+  max-width: 36ch;
+  letter-spacing: -0.01em;
 }
 .hero-check {
   display: flex;
@@ -420,7 +422,7 @@ button:active { transform: translateY(1px); }
   font-size: clamp(36px, 3.8vw, 60px);
   font-weight: 500;
   line-height: 1.04;
-  max-width: 11ch;
+  max-width: 16ch;
 }
 .join-form-pane p {
   font-family: var(--font-body, sans-serif);
@@ -457,10 +459,11 @@ button:active { transform: translateY(1px); }
 }
 .waitlist-meta .meta-lbl {
   font-family: var(--font-body, sans-serif);
-  font-size: 11px;
-  letter-spacing: 0.14em;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--fg-muted);
+  color: var(--waer-ink);
 }
 
 /* ─── Manifesto ──────────────────────────────────────────── */
@@ -519,6 +522,19 @@ button:active { transform: translateY(1px); }
   text-transform: uppercase;
   color: var(--fg-muted);
   text-align: right;
+}
+.manifesto-row--featured .row-title {
+  font-size: clamp(32px, 3.6vw, 52px);
+  color: #7A1A1A;
+  font-weight: 700;
+  line-height: 1;
+}
+.manifesto-row--featured .row-desc {
+  font-size: 16px;
+  color: var(--waer-ink);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* ─── Pull quote ─────────────────────────────────────────── */
@@ -628,7 +644,7 @@ footer {
   line-height: 1.04;
   text-transform: uppercase;
   letter-spacing: -0.005em;
-  color: var(--waer-core-grey);
+  color: #7A1A1A;
   max-width: 18ch;
 }
 .footer-sign {

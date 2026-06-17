@@ -15,11 +15,11 @@ export default function JoinSection() {
   return (
     <section className="join">
       <div className="join-form-pane">
-        <h2>Join the list.</h2>
+        <h2>Become a<br />founding member.</h2>
         <p>
           One scent no longer covers it all.<br /><br />
-          Join the first members.<br /><br />
-          A/W &rsquo;26.
+          A/W &rsquo;26.<br /><br />
+          Reserve your place.
         </p>
         <WaitlistForm
           variant="join"
