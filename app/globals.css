@@ -119,7 +119,7 @@ button:active { transform: translateY(1px); }
   overflow: hidden;
 }
 .hero-img {
-  background: url('/assets/lander_hero.png') center / cover no-repeat;
+  background: url('/assets/waer_lander.png') center / cover no-repeat;
   min-height: 560px;
 }
 .hero-grid {
