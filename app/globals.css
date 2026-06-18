@@ -171,6 +171,9 @@ button:active { transform: translateY(1px); }
   color: var(--accent);
   font-weight: 500;
 }
+.hero-headline-line1 {
+  white-space: nowrap;
+}
 
 .hero-lede {
   font-family: var(--font-body, sans-serif);
