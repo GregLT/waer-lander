@@ -60,7 +60,8 @@ html, body {
   color: var(--fg);
   font-family: var(--font-body, "Helvetica Neue", Arial, sans-serif);
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.04;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -90,7 +91,7 @@ button:active { transform: translateY(1px); }
 .eyebrow {
   font-family: var(--font-body, sans-serif);
   font-size: 13px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   text-transform: uppercase;
   font-weight: 500;
   color: var(--fg-soft);
@@ -123,7 +124,7 @@ button:active { transform: translateY(1px); }
 .hero-eyebrow {
   font-family: var(--font-body, sans-serif);
   font-size: 12px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--waer-ink);
   margin-bottom: 20px;
@@ -139,7 +140,7 @@ button:active { transform: translateY(1px); }
   border-radius: 999px;
   font-family: var(--font-body, sans-serif);
   font-size: 10.5px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--waer-ink);
   background: rgba(255, 255, 255, 0.6);
@@ -174,7 +175,8 @@ button:active { transform: translateY(1px); }
 .hero-lede {
   font-family: var(--font-body, sans-serif);
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.04;
+  letter-spacing: 0;
   color: rgba(17, 17, 17, 0.75);
   margin: 0;
   max-width: 38ch;
@@ -199,7 +201,7 @@ button:active { transform: translateY(1px); }
 .hero-stat-lbl {
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg-muted);
   display: block;
@@ -220,7 +222,7 @@ button:active { transform: translateY(1px); }
 .signup-label {
   font-family: var(--font-body, sans-serif);
   font-size: 12px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg-muted);
   margin: 0 0 20px;
@@ -241,7 +243,7 @@ button:active { transform: translateY(1px); }
 .signup-count-lbl {
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg-muted);
 }
@@ -271,7 +273,7 @@ button:active { transform: translateY(1px); }
   padding: 16px 28px;
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   text-transform: uppercase;
   white-space: nowrap;
   transition: background var(--dur-fast) var(--ease-standard);
@@ -303,7 +305,7 @@ button:active { transform: translateY(1px); }
   border: 0;
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--waer-core-grey);
   padding: 14px 4px 14px 24px;
@@ -362,14 +364,14 @@ button:active { transform: translateY(1px); }
   left: 14px;
   font-family: var(--font-body, sans-serif);
   font-size: 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 .duotone-caption {
   text-align: center;
   font-family: var(--font-body, sans-serif);
   font-size: 12px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: var(--fg-muted);
   padding: 20px 24px;
@@ -423,7 +425,7 @@ footer {
   border-top: 1px solid rgba(235, 230, 224, 0.18);
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   color: rgba(235, 230, 224, 0.55);
   text-transform: uppercase;
 }

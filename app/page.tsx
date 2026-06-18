@@ -1,7 +1,6 @@
 import SiteHeader from '@/components/SiteHeader'
 import Hero from '@/components/Hero'
 import SignupSection from '@/components/SignupSection'
-import DuotoneStrip from '@/components/DuotoneStrip'
 import SiteFooter from '@/components/SiteFooter'
 
 export default function Page() {
@@ -11,7 +10,6 @@ export default function Page() {
       <main>
         <Hero />
         <SignupSection />
-        <DuotoneStrip />
       </main>
       <SiteFooter />
     </>

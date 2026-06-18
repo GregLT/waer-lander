@@ -24,5 +24,5 @@ export const config = {
   lede:        "One scent can’t carry your whole life.",
   subLede:     'Curate. Layer. Rotate.',
   ctaLabel:    'Reserve access →',
-  footerLine:  'No one else wears your combination.',
+  footerLine:  'CURATE. LAYER. ROTATE.',
 }
