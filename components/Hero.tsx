@@ -4,15 +4,12 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="hero-copy">
-        <span className="hero-pill">
-          <span className="dot" aria-hidden="true" />
-          {config.pill}
-        </span>
+        <div className="hero-eyebrow">Launching A/W &rsquo;26</div>
         <h1>
           {config.headline} <em>{config.headlineEm}</em>
         </h1>
         <p className="hero-lede">
-          {config.lede}<br /><br />{config.subLede}
+          {config.lede} {config.subLede}
         </p>
       </div>
     </section>

@@ -14,24 +14,15 @@ export default function SignupSection() {
   return (
     <section className="signup">
       <div className="signup-inner">
+        <p className="signup-label">Be the first to know</p>
         <WaitlistForm
           variant="hero"
           submitLabel={config.ctaLabel}
           onSuccess={(position) => setCount(prev => position > prev ? position : prev + 1)}
         />
-        <div className="hero-stats">
-          <div>
-            <span className="hero-stat-num">{formatCount(count)}</span>
-            <span className="hero-stat-lbl">Founding members</span>
-          </div>
-          <div>
-            <span className="hero-stat-num">14</span>
-            <span className="hero-stat-lbl">Scents</span>
-          </div>
-          <div>
-            <span className="hero-stat-num">A/W &rsquo;26</span>
-            <span className="hero-stat-lbl">First drop</span>
-          </div>
+        <div className="signup-count">
+          <span className="signup-count-num">{formatCount(count)}</span>
+          <span className="signup-count-lbl">People on the waitlist</span>
         </div>
       </div>
     </section>

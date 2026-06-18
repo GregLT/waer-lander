@@ -117,8 +117,17 @@ button:active { transform: translateY(1px); }
   align-items: flex-end;
 }
 .hero-copy {
-  max-width: 560px;
+  max-width: 480px;
   padding: 60px 56px 72px;
+}
+.hero-eyebrow {
+  font-family: var(--font-body, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--waer-ink);
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .hero-pill {
@@ -163,14 +172,12 @@ button:active { transform: translateY(1px); }
 }
 
 .hero-lede {
-  font-family: var(--font-display, Georgia, serif);
-  font-size: clamp(20px, 2vw, 28px);
-  font-weight: 500;
-  line-height: 1.18;
-  color: var(--waer-ink);
-  margin: 0 0 32px;
-  max-width: 36ch;
-  letter-spacing: -0.01em;
+  font-family: var(--font-body, sans-serif);
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(17, 17, 17, 0.75);
+  margin: 0;
+  max-width: 38ch;
 }
 
 .hero-stats {
@@ -203,46 +210,73 @@ button:active { transform: translateY(1px); }
 .signup {
   background: var(--page-bg);
   border-bottom: 1px solid var(--rule);
-  padding: 56px 56px 64px;
+  padding: 56px 36px 64px;
+  text-align: center;
 }
 .signup-inner {
   max-width: 560px;
+  margin: 0 auto;
+}
+.signup-label {
+  font-family: var(--font-body, sans-serif);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 20px;
+}
+.signup-count {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+.signup-count-num {
+  font-family: var(--font-display, Georgia, serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 8px;
+}
+.signup-count-lbl {
+  font-family: var(--font-body, sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
 }
 
 /* ─── Waitlist Form — hero variant ──────────────────── */
 .wf-hero {
   display: flex;
-  gap: 8px;
-  max-width: 520px;
+  gap: 0;
+  width: 100%;
+  border: 1px solid rgba(17, 17, 17, 0.22);
 }
 .wf-hero input {
   flex: 1;
-  background: rgba(235, 230, 224, 0.85);
-  border: 1px solid rgba(17, 17, 17, 0.18);
-  border-radius: 999px;
-  padding: 14px 22px;
+  background: #ffffff;
+  border: 0;
+  padding: 16px 20px;
   font-family: var(--font-body, sans-serif);
   font-size: 14px;
   color: var(--fg);
   outline: 0;
-  transition: border-color var(--dur-fast) var(--ease-standard);
 }
-.wf-hero input:focus { border-color: var(--waer-ink); }
 .wf-hero input::placeholder { color: var(--fg-muted); }
 .wf-hero button {
-  background: var(--accent);
+  background: var(--waer-ink);
   color: #ffffff;
   border: 0;
-  border-radius: 999px;
-  padding: 14px 26px;
+  padding: 16px 28px;
   font-family: var(--font-body, sans-serif);
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-size: 11px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   white-space: nowrap;
   transition: background var(--dur-fast) var(--ease-standard);
 }
-.wf-hero button:hover { background: var(--accent-hover); }
+.wf-hero button:hover { background: var(--accent); }
 .wf-hero button:disabled { opacity: 0.5; cursor: default; }
 
 
@@ -404,7 +438,6 @@ footer {
   .signup { padding: 40px 24px 48px; }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
-  .hero-stats { gap: 24px; }
 
   .strap { padding: 80px 24px; }
 
