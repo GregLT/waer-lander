@@ -112,10 +112,17 @@ button:active { transform: translateY(1px); }
 /* ─── Hero ───────────────────────────────────────────── */
 /* To change the hero image: update the url() below      */
 .hero {
+  position: relative;
   background: url('/assets/waer_lander.png') right center / cover no-repeat, var(--hero-bg);
   min-height: 580px;
   display: flex;
   align-items: flex-end;
+}
+.hero-logo {
+  position: absolute;
+  top: 24px;
+  left: 36px;
+  z-index: 10;
 }
 .hero-image { display: none; }
 .hero-copy {
@@ -449,6 +456,7 @@ footer {
     flex-direction: column;
     align-items: stretch;
   }
+  .hero-logo { top: 18px; left: 24px; }
   .hero-image {
     display: block;
     height: 56vw;

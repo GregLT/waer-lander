@@ -1,8 +1,19 @@
+import Image from 'next/image'
 import { config } from '@/lib/config'
 
 export default function Hero() {
   return (
     <section className="hero">
+      <div className="hero-logo">
+        <Image
+          src="/assets/WAER_Wordmark_Black.png"
+          alt="WAER"
+          width={3000}
+          height={734}
+          style={{ height: 16, width: 'auto' }}
+          priority
+        />
+      </div>
       {/* image block — visible on mobile only, hidden on desktop */}
       <div className="hero-image" aria-hidden="true" />
       <div className="hero-copy">
