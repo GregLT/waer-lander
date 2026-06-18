@@ -5,6 +5,8 @@ export default function Strap() {
         Fourteen scents.
         <br />
         No signature.
+        <br />
+        ✦
       </h2>
     </section>
   )
