@@ -6,7 +6,7 @@ export const config = {
 
   // ── Image ────────────────────────────────────
   // Drop the file into /public/assets/ and update the filename
-  heroImage: '/assets/waer_lander.png',
+  heroImage: '/assets/tennis_desktop.png',
 
   // ── Colours ──────────────────────────────────
   accent:      '#E82020',   // buttons, "Finally.", key highlights

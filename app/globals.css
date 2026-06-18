@@ -113,7 +113,7 @@ button:active { transform: translateY(1px); }
 /* To change the hero image: update the url() below      */
 .hero {
   position: relative;
-  background: url('/assets/waer_lander.png') right center / cover no-repeat, var(--hero-bg);
+  background: url('/assets/tennis_desktop.png') right center / cover no-repeat, var(--hero-bg);
   min-height: 580px;
   display: flex;
   align-items: flex-end;
@@ -491,7 +491,7 @@ footer {
     height: 56vw;
     min-height: 220px;
     max-height: 360px;
-    background: url('/assets/waer_lander.png') center / cover no-repeat, var(--hero-bg);
+    background: url('/assets/tennis_mobile.png') center / cover no-repeat, var(--hero-bg);
   }
   .hero-copy {
     background: var(--page-bg);
