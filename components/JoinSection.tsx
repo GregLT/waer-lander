@@ -13,7 +13,7 @@ export default function JoinSection() {
   const [count, setCount] = useState(INITIAL_COUNT)
 
   return (
-    <section className="join">
+    <section className="join join--no-img">
       <div className="join-form-pane">
         <h2>Become a<br />founding member.</h2>
         <p>
@@ -41,7 +41,6 @@ export default function JoinSection() {
           </div>
         </div>
       </div>
-      <div className="join-img" aria-hidden="true" />
     </section>
   )
 }

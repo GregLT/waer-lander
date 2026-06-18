@@ -407,6 +407,10 @@ button:active { transform: translateY(1px); }
   grid-template-columns: 1fr 1fr;
   min-height: 560px;
 }
+.join--no-img {
+  grid-template-columns: 1fr;
+  min-height: unset;
+}
 .join-img {
   background: url('/assets/art-direction-vial-2.jpg') center / cover no-repeat;
 }
@@ -730,7 +734,6 @@ footer {
   .duotone-strip { grid-template-columns: repeat(4, 1fr); }
 
   .join { grid-template-columns: 1fr; }
-  .join-img { min-height: 360px; order: -1; }
   .join-form-pane { padding: 48px 28px 56px; }
 
   .manifesto-row {
