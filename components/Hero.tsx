@@ -31,11 +31,10 @@ export default function Hero() {
         </div>
         <div className="hero-eyebrow">Launching A/W &rsquo;26</div>
         <h1>
-          <span className="hero-headline-line1">Your scent</span>
-          {" "}wardrobe. <em>{config.headlineEm}</em>
+          Your scent wardrobe.{" "}<span className="hero-accent">{config.headlineEm}</span>
         </h1>
         <p className="hero-lede">
-          {config.lede} <em className="hero-lede-em">{config.subLede}</em>
+          {config.lede} {config.subLede}
         </p>
       </div>
     </section>

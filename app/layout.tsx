@@ -5,7 +5,7 @@ import './globals.css'
 const f37Ginger = localFont({
   src: './fonts/F37Ginger-Regular.otf',
   variable: '--font-display',
-  weight: '400 600',
+  weight: '400 700',
   display: 'swap',
 })
 
