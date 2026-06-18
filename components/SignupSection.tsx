@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import WaitlistForm from './WaitlistForm'
+import Countdown from './Countdown'
 import { config } from '@/lib/config'
 
 function formatCount(n: number) {
@@ -20,9 +21,13 @@ export default function SignupSection() {
           submitLabel={config.ctaLabel}
           onSuccess={(position) => setCount(prev => position > prev ? position : prev + 1)}
         />
-        <div className="signup-count">
-          <span className="signup-count-num">{formatCount(count)}</span>
-          <span className="signup-count-lbl">People on the waitlist</span>
+        <div className="signup-stats">
+          <div className="signup-count">
+            <span className="signup-count-num">{formatCount(count)}</span>
+            <span className="signup-count-lbl">People on the waitlist</span>
+          </div>
+          <div className="signup-divider" />
+          <Countdown />
         </div>
       </div>
     </section>

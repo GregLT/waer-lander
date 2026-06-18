@@ -118,11 +118,17 @@ button:active { transform: translateY(1px); }
   display: flex;
   align-items: flex-end;
 }
-.hero-logo {
+/* Mobile logo — absolute over image, hidden on desktop */
+.hero-logo-mobile {
   position: absolute;
   top: 24px;
   left: 36px;
   z-index: 10;
+  display: none;
+}
+/* Desktop logo — in copy flow, hidden on mobile */
+.hero-logo-desktop {
+  margin-bottom: 40px;
 }
 .hero-image { display: none; }
 .hero-copy {
@@ -242,16 +248,30 @@ button:active { transform: translateY(1px); }
   color: var(--fg-muted);
   margin: 0 0 20px;
 }
-.signup-count {
+.signup-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
   margin-top: 40px;
   padding-top: 32px;
   border-top: 1px solid var(--rule);
 }
+.signup-count,
+.countdown-stat {
+  flex: 1;
+  text-align: center;
+}
+.signup-divider {
+  width: 1px;
+  height: 56px;
+  background: var(--rule);
+  flex-shrink: 0;
+}
 .signup-count-num {
   font-family: var(--font-display, Georgia, serif);
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(28px, 4vw, 56px);
   font-weight: 500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   display: block;
   margin-bottom: 8px;
 }
@@ -260,6 +280,13 @@ button:active { transform: translateY(1px); }
   font-size: 11px;
   letter-spacing: 0;
   text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.countdown-unit {
+  font-size: 0.5em;
+  letter-spacing: 0;
+  vertical-align: baseline;
+  margin-left: 1px;
   color: var(--fg-muted);
 }
 
@@ -456,7 +483,8 @@ footer {
     flex-direction: column;
     align-items: stretch;
   }
-  .hero-logo { top: 18px; left: 24px; }
+  .hero-logo-mobile { display: block; top: 18px; left: 24px; }
+  .hero-logo-desktop { display: none; }
   .hero-image {
     display: block;
     height: 56vw;
