@@ -191,7 +191,7 @@ button:active { transform: translateY(1px); }
 
 .hero-lede {
   font-family: var(--font-body, sans-serif);
-  font-size: 15px;
+  font-size: 21px;
   line-height: 1.04;
   letter-spacing: 0;
   color: rgba(17, 17, 17, 0.75);
