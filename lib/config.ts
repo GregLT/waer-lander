@@ -19,10 +19,10 @@ export const config = {
 
   // ── Copy ─────────────────────────────────────
   pill:        "A/W '26 · 1,000+ FOUNDING MEMBERS",
-  headline:    ‘Your scent wardrobe.’,
-  headlineEm:  ‘Finally.’,
-  lede:        ‘One scent was never enough. Meet WAER – fourteen fragrances built to be’,
-  subLede:     ‘layered, rotated and worn your way.’,
-  ctaLabel:    'Reserve access →',
-  footerLine:  'CURATE. LAYER. ROTATE.',
+  headline:    "Your scent wardrobe.",
+  headlineEm:  "Finally.",
+  lede:        "One scent was never enough. Meet WAER – fourteen fragrances built to be",
+  subLede:     "layered, rotated and worn your way.",
+  ctaLabel:    "Reserve access →",
+  footerLine:  "CURATE. LAYER. ROTATE.",
 }
