@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     title: 'WAER — Join the wardrobe',
     description:
       "Your morning isn't your evening. Your Tuesday isn't your Saturday. Doors open A/W '26.",
-    images: [{ url: '/assets/product-detail-2.jpg' }],
+    images: [{ url: '/assets/og-image.png' }],
   },
 }
 

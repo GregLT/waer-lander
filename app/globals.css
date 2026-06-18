@@ -274,6 +274,7 @@ button:active { transform: translateY(1px); }
 .wf-hero button:hover { background: rgba(0,0,0,0.85); transform: translateY(-1px); }
 .wf-hero button:active { transform: translateY(1px); }
 .wf-hero button:disabled { opacity: 0.5; cursor: default; }
+.wf-hero button[data-submitted] { background: #E050B0; opacity: 1; }
 
 
 /* ─── Waitlist Form — footer variant ────────────────── */

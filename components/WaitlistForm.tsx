@@ -63,7 +63,7 @@ export default function WaitlistForm({
           disabled={submitted || submitting}
           aria-label="Email address"
         />
-        <button type="submit" disabled={submitted || submitting}>
+        <button type="submit" disabled={submitted || submitting} data-submitted={submitted || undefined}>
           {submitted ? successLabel : submitting ? 'Sending…' : submitLabel}
         </button>
       </form>
