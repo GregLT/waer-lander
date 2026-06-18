@@ -3,6 +3,8 @@ import { config } from '@/lib/config'
 export default function Hero() {
   return (
     <section className="hero">
+      {/* image block — visible on mobile only, hidden on desktop */}
+      <div className="hero-image" aria-hidden="true" />
       <div className="hero-copy">
         <div className="hero-eyebrow">Launching A/W &rsquo;26</div>
         <h1>
