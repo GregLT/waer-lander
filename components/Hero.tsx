@@ -1,34 +1,47 @@
+'use client'
+
+import { useState } from 'react'
 import WaitlistForm from './WaitlistForm'
+import { config } from '@/lib/config'
+
+function formatCount(n: number) {
+  return n.toLocaleString('en-GB')
+}
 
 export default function Hero() {
+  const [count, setCount] = useState(config.initialCount)
+
   return (
     <section className="hero">
       <div className="hero-grid">
         <div className="hero-copy">
           <span className="hero-pill">
             <span className="dot" aria-hidden="true" />
-            A/W &rsquo;26 &bull; 1,000+ FOUNDING MEMBERS
+            {config.pill}
           </span>
           <h1>
-            Your scent wardrobe. <em>Finally.</em>
+            {config.headline} <em>{config.headlineEm}</em>
           </h1>
           <p className="hero-lede">
-            One scent can&rsquo;t carry your whole life.<br /><br />Curate. Layer. Rotate.
+            {config.lede}<br /><br />{config.subLede}
           </p>
-          <WaitlistForm variant="hero" submitLabel="Reserve access →" />
-          <div className="hero-social">
-            <div className="hero-avatars" aria-hidden="true">
-              <span className="av" style={{ background: '#761205' }} />
-              <span className="av" style={{ background: '#E050B0' }} />
-              <span className="av" style={{ background: '#8CB07D' }} />
-              <span className="av" style={{ background: '#F0D080' }} />
-              <span className="av" style={{ background: '#607078' }} />
+          <WaitlistForm
+            variant="hero"
+            submitLabel={config.ctaLabel}
+            onSuccess={(position) => setCount(prev => position > prev ? position : prev + 1)}
+          />
+          <div className="hero-stats">
+            <div>
+              <span className="hero-stat-num">{formatCount(count)}</span>
+              <span className="hero-stat-lbl">Founding members</span>
             </div>
             <div>
-              <strong>1,000+ founding members.</strong>
-              <span className="hero-social-sub">
-                Joining from London, Manchester, Bristol and beyond.
-              </span>
+              <span className="hero-stat-num">14</span>
+              <span className="hero-stat-lbl">Scents</span>
+            </div>
+            <div>
+              <span className="hero-stat-num">A/W &rsquo;26</span>
+              <span className="hero-stat-lbl">First drop</span>
             </div>
           </div>
         </div>
