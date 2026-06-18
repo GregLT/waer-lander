@@ -12,19 +12,16 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <div className="footer-wm">
+      <div className="footer-fine-bar">
         <Image
           src="/assets/WAER_Wordmark_White.png"
           alt="WAER"
           width={3000}
           height={734}
-          style={{ width: '100%', maxWidth: 1100, height: 'auto' }}
+          style={{ height: 14, width: 'auto', opacity: 0.55 }}
         />
-      </div>
-
-      <div className="footer-fine-bar">
-        <span>© WAER 2026 — Made in France</span>
-        <span>K.01 → K.14</span>
+        <span className="footer-fine-center">© WAER 2026 — Made in France</span>
+        <span style={{ whiteSpace: 'nowrap' }}>K.01 → K.14</span>
       </div>
     </footer>
   )
