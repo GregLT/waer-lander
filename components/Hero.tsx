@@ -9,7 +9,7 @@ export default function Hero() {
           {config.headline} <em>{config.headlineEm}</em>
         </h1>
         <p className="hero-lede">
-          {config.lede} {config.subLede}
+          {config.lede} <em className="hero-lede-em">{config.subLede}</em>
         </p>
       </div>
     </section>

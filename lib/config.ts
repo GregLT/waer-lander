@@ -9,8 +9,8 @@ export const config = {
   heroImage: '/assets/waer_lander.png',
 
   // ── Colours ──────────────────────────────────
-  accent:      '#7A1A1A',   // buttons, "Finally.", key highlights
-  accentHover: '#1A0A0A',   // button hover state
+  accent:      '#E82020',   // buttons, "Finally.", key highlights
+  accentHover: '#B01010',   // button hover state
   heroBg:      '#9ABDD4',   // background colour behind the hero image
   pageBg:      '#EBE6E0',   // cream — page background and header
 
@@ -19,10 +19,10 @@ export const config = {
 
   // ── Copy ─────────────────────────────────────
   pill:        "A/W '26 · 1,000+ FOUNDING MEMBERS",
-  headline:    'Your scent wardrobe.',
-  headlineEm:  'Finally.',
-  lede:        "One scent can’t carry your whole life.",
-  subLede:     'Curate. Layer. Rotate.',
+  headline:    ‘Your scent wardrobe.’,
+  headlineEm:  ‘Finally.’,
+  lede:        ‘One scent was never enough. Meet WAER – fourteen fragrances built to be’,
+  subLede:     ‘layered, rotated and worn your way.’,
   ctaLabel:    'Reserve access →',
   footerLine:  'CURATE. LAYER. ROTATE.',
 }
