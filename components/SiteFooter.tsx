@@ -18,7 +18,7 @@ export default function SiteFooter() {
           alt="WAER"
           width={3000}
           height={734}
-          style={{ height: 14, width: 'auto', opacity: 0.55 }}
+          style={{ height: 11, width: 'auto', opacity: 0.55 }}
         />
         <span className="footer-fine-center">© WAER 2026 — Made in France</span>
         <span style={{ whiteSpace: 'nowrap' }}>K.01 → K.14</span>

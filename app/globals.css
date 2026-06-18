@@ -461,7 +461,6 @@ footer {
   justify-content: space-between;
   padding-top: 32px;
   margin-top: 40px;
-  border-top: 1px solid rgba(235, 230, 224, 0.18);
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
   letter-spacing: 0;
