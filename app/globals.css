@@ -466,10 +466,10 @@ footer {
   }
   .hero-copy {
     background: var(--page-bg);
-    padding: 32px 24px 40px;
+    padding: 24px 24px 20px;
     max-width: 100%;
   }
-  .signup { padding: 40px 24px 48px; }
+  .signup { padding: 24px 24px 40px; }
   .wf-hero { flex-direction: column; }
   .wf-hero button { width: 100%; }
 
