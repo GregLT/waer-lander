@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 const CASES = [
-  { id: 'verdant-spice',  name: 'Verdant Spice',  color: 'hsl(88 20% 48%)',  hex: '#76926a' },
-  { id: 'lychee-flair',   name: 'Lychee Flair',   color: 'hsl(327 90% 67%)', hex: '#f85cb0' },
-  { id: 'warm-blush',     name: 'Warm Blush',     color: 'hsl(9 20% 80%)',   hex: '#d6c3bd' },
-  { id: 'amber-sundown',  name: 'Amber Sundown',  color: 'hsl(44 89% 55%)',  hex: '#f4b624' },
-  { id: 'ebony-pepper',   name: 'Ebony Pepper',   color: 'hsl(9 54% 26%)',   hex: '#66301f' },
-  { id: 'bergamot-sky',   name: 'Bergamot Sky',   color: 'hsl(198 73% 55%)', hex: '#36a8e0' },
+  { id: 'zest',      name: 'Zest',      img: '/assets/cases/zest.jpg' },
+  { id: 'ink',       name: 'Ink',       img: '/assets/cases/ink.jpg' },
+  { id: 'chrome',    name: 'Chrome',    img: '/assets/cases/chrome.jpg' },
+  { id: 'petal',     name: 'Petal',     img: '/assets/cases/petal.jpg' },
+  { id: 'forest',    name: 'Forest',    img: '/assets/cases/forest.jpg' },
+  { id: 'berry',     name: 'Berry',     img: '/assets/cases/berry.jpg' },
+  { id: 'bubblegum', name: 'Bubblegum', img: '/assets/cases/bubblegum.jpg' },
+  { id: 'sand',      name: 'Sand',      img: '/assets/cases/sand.jpg' },
 ]
 
 export default function VotePage() {
@@ -89,7 +91,9 @@ export default function VotePage() {
                     onClick={() => toggle(c.id)}
                     aria-pressed={isSel}
                   >
-                    <div className="vote-tile-swatch" style={{ background: c.color }} />
+                    <div className="vote-tile-img-wrap">
+                      <Image src={c.img} alt={c.name} fill sizes="(max-width: 600px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
+                    </div>
                     {isSel && (
                       <span className="vote-tile-check" aria-hidden="true">✓</span>
                     )}

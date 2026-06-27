@@ -460,7 +460,7 @@ footer {
 }
 .vote-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-base);
   max-width: 960px;
 }
@@ -478,10 +478,12 @@ footer {
   text-align: left;
   transition: border-color 0.15s ease, opacity 0.15s ease;
 }
-.vote-tile-swatch {
+.vote-tile-img-wrap {
+  position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
   border-radius: 2px;
+  overflow: hidden;
 }
 .vote-tile-name {
   font-family: var(--font-display, sans-serif);
