@@ -11,7 +11,7 @@ const CASES = [
   { id: 'forest',    name: 'Forest',    img: '/assets/cases/forest.jpg' },
   { id: 'berry',     name: 'Berry',     img: '/assets/cases/berry.jpg' },
   { id: 'bubblegum', name: 'Bubblegum', img: '/assets/cases/bubblegum.jpg' },
-  { id: 'sand',      name: 'Sand',      img: '/assets/cases/sand.jpg' },
+  { id: 'ecru',      name: 'Ecru',      img: '/assets/cases/ecru.jpg' },
 ]
 
 export default function VotePage() {
