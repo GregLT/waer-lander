@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
+import { fireVoteEvent, subscribeProfileToList } from '@/lib/klaviyo'
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,6 +25,13 @@ export async function POST(req: NextRequest) {
     if (error) {
       console.error('Supabase insert error:', error)
       return NextResponse.json({ ok: false, error: 'Server error.' }, { status: 500 })
+    }
+
+    if (klaviyo_id) {
+      await Promise.allSettled([
+        fireVoteEvent(klaviyo_id, choices),
+        subscribeProfileToList(klaviyo_id),
+      ])
     }
 
     return NextResponse.json({ ok: true })
