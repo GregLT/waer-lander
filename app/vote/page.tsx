@@ -73,7 +73,7 @@ export default function VotePage() {
             <h1 className="vote-hero-hed">Choose your two</h1>
             <p className="vote-hero-accent">Pick the cases we make.</p>
             <p className="vote-intro">
-              We&rsquo;ve designed six case colourways and we&rsquo;re only making four.
+              We&rsquo;ve designed eight case colourways and we&rsquo;re only making four.
               The two you pick are a vote for the ones we make.
             </p>
           </section>
