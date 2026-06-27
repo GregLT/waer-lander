@@ -4,9 +4,10 @@ import { fireVoteEvent, subscribeProfileToList } from '@/lib/klaviyo'
 
 export async function POST(req: NextRequest) {
   try {
-    const { klaviyo_id, choices, ts } = await req.json() as {
+    const { klaviyo_id, choices, feedback, ts } = await req.json() as {
       klaviyo_id?: string
       choices?: string[]
+      feedback?: string | null
       ts?: number
     }
 
@@ -19,6 +20,7 @@ export async function POST(req: NextRequest) {
       choice_1: choices[0],
       choice_2: choices[1],
       choice_3: choices[2],
+      feedback: feedback ?? null,
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 

@@ -30,6 +30,7 @@ export default function VotePage() {
   const [selected, setSelected] = useState<string[]>([])
   const [klaviyoId, setKlaviyoId] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
+  const [feedback, setFeedback] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -56,7 +57,7 @@ export default function VotePage() {
       const res = await fetch('/api/vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ klaviyo_id: klaviyoId, choices: selected, ts: Date.now() }),
+        body: JSON.stringify({ klaviyo_id: klaviyoId, choices: selected, feedback: feedback.trim() || null, ts: Date.now() }),
       })
       const data = await res.json() as { ok?: boolean; error?: string }
       if (!data.ok) { setError(data.error ?? 'Something went wrong.'); return }
@@ -119,6 +120,23 @@ export default function VotePage() {
               })}
             </div>
           </section>
+
+          {/* Optional feedback */}
+          <div className="vote-feedback-wrap">
+            <label className="vote-feedback-label" htmlFor="vote-feedback">
+              Any colour or finish you&rsquo;d love to see?
+            </label>
+            <textarea
+              id="vote-feedback"
+              className="vote-feedback-input"
+              placeholder="Optional"
+              rows={3}
+              maxLength={500}
+              value={feedback}
+              onChange={e => setFeedback(e.target.value)}
+              disabled={submitting}
+            />
+          </div>
 
           {/* Fixed bottom bar */}
           <div className="vote-bar">

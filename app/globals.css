@@ -529,6 +529,42 @@ footer {
   color: var(--color-text);
 }
 
+.vote-feedback-wrap {
+  padding: var(--space-m) var(--space-m) 120px;
+  max-width: 720px;
+}
+.vote-feedback-label {
+  display: block;
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: var(--space-s);
+}
+.vote-feedback-input {
+  width: 100%;
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-sm);
+  font-weight: 400;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: var(--space-s) var(--space-base);
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease;
+}
+.vote-feedback-input:focus {
+  border-color: var(--color-text);
+}
+.vote-feedback-input::placeholder {
+  color: var(--color-text-40);
+}
+
 .vote-bar {
   position: fixed;
   bottom: 0;
