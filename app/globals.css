@@ -484,6 +484,7 @@ footer {
   aspect-ratio: 3 / 4;
   border-radius: 2px;
   overflow: hidden;
+  background: var(--color-bg);
 }
 .vote-tile-name {
   font-family: var(--font-display, sans-serif);

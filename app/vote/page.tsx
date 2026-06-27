@@ -92,7 +92,7 @@ export default function VotePage() {
                     aria-pressed={isSel}
                   >
                     <div className="vote-tile-img-wrap">
-                      <Image src={c.img} alt={c.name} fill sizes="(max-width: 600px) 50vw, 25vw" style={{ objectFit: 'cover' }} />
+                      <Image src={c.img} alt={c.name} fill sizes="(max-width: 600px) 50vw, 25vw" style={{ objectFit: 'contain' }} />
                     </div>
                     {isSel && (
                       <span className="vote-tile-check" aria-hidden="true">✓</span>
