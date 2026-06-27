@@ -14,9 +14,22 @@ const CASES = [
   { id: 'ecru',      name: 'Ecru',      img: '/assets/cases/ecru.png' },
 ]
 
+// URL params are untrusted input. React JSX auto-escapes string values so {name}
+// won't render HTML, but we also strip tags here before it reaches the JSX layer.
+function sanitiseName(raw: string | null): string | null {
+  if (!raw) return null
+  let val: string
+  try { val = decodeURIComponent(raw) } catch { return null }
+  // Strip any HTML tags (belt-and-braces on top of JSX auto-escaping)
+  val = val.replace(/<[^>]*>/g, '').trim()
+  if (!val || val.toLowerCase() === 'there') return null
+  return val
+}
+
 export default function VotePage() {
   const [selected, setSelected] = useState<string[]>([])
   const [klaviyoId, setKlaviyoId] = useState<string | null>(null)
+  const [name, setName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -24,6 +37,7 @@ export default function VotePage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     setKlaviyoId(params.get('id'))
+    setName(sanitiseName(params.get('name')))
   }, [])
 
   function toggle(id: string) {
@@ -64,12 +78,15 @@ export default function VotePage() {
       {submitted ? (
         <div className="vote-thanks">
           <h1 className="vote-thanks-hed">Thank you</h1>
-          <p className="vote-thanks-sub">Your vote&rsquo;s in. We&rsquo;ll share the four we&rsquo;re making very soon.</p>
+          <p className="vote-thanks-sub">Your vote&rsquo;s in. We&rsquo;ll share the three we&rsquo;re making very soon.</p>
         </div>
       ) : (
         <>
           {/* Hero */}
           <section className="vote-hero">
+            {name && (
+              <p className="vote-hero-eyebrow">Your picks, {name}.</p>
+            )}
             <h1 className="vote-hero-hed">Choose your three</h1>
             <p className="vote-hero-accent">Pick the cases we make.</p>
             <p className="vote-intro">
@@ -83,7 +100,7 @@ export default function VotePage() {
             <div className="vote-grid">
               {CASES.map(c => {
                 const isSel = selected.includes(c.id)
-                const isBlocked = !isSel && selected.length >= 2
+                const isBlocked = !isSel && selected.length >= 3
                 return (
                   <button
                     key={c.id}

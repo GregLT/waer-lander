@@ -426,6 +426,15 @@ footer {
   border-bottom: 1px solid var(--rule);
   max-width: 720px;
 }
+.vote-hero-eyebrow {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-60);
+  margin: 0 0 var(--space-s);
+}
 .vote-hero-hed {
   font-family: var(--font-display, sans-serif);
   font-size: clamp(42px, 8vw, 88px);
