@@ -29,13 +29,13 @@ export default function VotePage() {
   function toggle(id: string) {
     setSelected(prev => {
       if (prev.includes(id)) return prev.filter(x => x !== id)
-      if (prev.length >= 2) return prev
+      if (prev.length >= 3) return prev
       return [...prev, id]
     })
   }
 
   async function handleSubmit() {
-    if (selected.length !== 2 || submitting) return
+    if (selected.length !== 3 || submitting) return
     setSubmitting(true)
     setError(null)
     try {
@@ -70,11 +70,11 @@ export default function VotePage() {
         <>
           {/* Hero */}
           <section className="vote-hero">
-            <h1 className="vote-hero-hed">Choose your two</h1>
+            <h1 className="vote-hero-hed">Choose your three</h1>
             <p className="vote-hero-accent">Pick the cases we make.</p>
             <p className="vote-intro">
-              We&rsquo;ve designed eight case colourways and we&rsquo;re only making four.
-              The two you pick are a vote for the ones we make.
+              We&rsquo;ve designed eight case colourways and we&rsquo;re only making three.
+              The three you pick are a vote for the ones we make.
             </p>
           </section>
 
@@ -106,11 +106,11 @@ export default function VotePage() {
 
           {/* Fixed bottom bar */}
           <div className="vote-bar">
-            <span className="vote-bar-count">{selected.length} / 2 selected</span>
+            <span className="vote-bar-count">{selected.length} / 3 selected</span>
             {error && <span className="form-error" style={{ margin: 0 }}>{error}</span>}
             <button
               className="vote-submit"
-              disabled={selected.length !== 2 || submitting}
+              disabled={selected.length !== 3 || submitting}
               onClick={handleSubmit}
             >
               {submitting ? 'Submitting…' : 'Submit vote →'}

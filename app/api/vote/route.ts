@@ -9,14 +9,15 @@ export async function POST(req: NextRequest) {
       ts?: number
     }
 
-    if (!choices || choices.length !== 2) {
-      return NextResponse.json({ ok: false, error: 'Select exactly two.' }, { status: 400 })
+    if (!choices || choices.length !== 3) {
+      return NextResponse.json({ ok: false, error: 'Select exactly three.' }, { status: 400 })
     }
 
     const { error } = await getSupabase().from('votes').insert({
       klaviyo_id: klaviyo_id ?? null,
       choice_1: choices[0],
       choice_2: choices[1],
+      choice_3: choices[2],
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 

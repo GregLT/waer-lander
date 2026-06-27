@@ -17,12 +17,13 @@ const CASES = [
 
 type Counts = Record<string, number>
 
-function toCounts(rows: { choice_1: string; choice_2: string }[]): Counts {
+function toCounts(rows: { choice_1: string; choice_2: string; choice_3: string }[]): Counts {
   const counts: Counts = {}
   for (const c of CASES) counts[c.id] = 0
   for (const row of rows) {
     if (counts[row.choice_1] !== undefined) counts[row.choice_1]++
     if (counts[row.choice_2] !== undefined) counts[row.choice_2]++
+    if (counts[row.choice_3] !== undefined) counts[row.choice_3]++
   }
   return counts
 }
@@ -36,7 +37,7 @@ export default function ResultsPage() {
     const sb = getSupabase()
 
     async function fetchAll() {
-      const { data } = await sb.from('votes').select('choice_1, choice_2')
+      const { data } = await sb.from('votes').select('choice_1, choice_2, choice_3')
       if (data) {
         setCounts(toCounts(data))
         setTotal(data.length)
@@ -48,11 +49,12 @@ export default function ResultsPage() {
     const channel = sb
       .channel('votes-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
-        const row = payload.new as { choice_1: string; choice_2: string }
+        const row = payload.new as { choice_1: string; choice_2: string; choice_3: string }
         setCounts(prev => ({
           ...prev,
           [row.choice_1]: (prev[row.choice_1] ?? 0) + 1,
           [row.choice_2]: (prev[row.choice_2] ?? 0) + 1,
+          [row.choice_3]: (prev[row.choice_3] ?? 0) + 1,
         }))
         setTotal(prev => prev + 1)
       })
@@ -80,7 +82,7 @@ export default function ResultsPage() {
           const count = counts[c.id] ?? 0
           const pct = Math.round((count / max) * 100)
           return (
-            <div key={c.id} className={`results-row${i < 4 ? ' results-row--top' : ''}`}>
+            <div key={c.id} className={`results-row${i < 3 ? ' results-row--top' : ''}`}>
               <div className="results-rank">{i + 1}</div>
               <div className="results-thumb">
                 <Image src={c.img} alt={c.name} fill sizes="56px" style={{ objectFit: 'contain', objectPosition: 'bottom center' }} />
