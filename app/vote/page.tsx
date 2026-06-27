@@ -84,11 +84,10 @@ export default function VotePage() {
         <>
           {/* Hero */}
           <section className="vote-hero">
-            {name && (
-              <p className="vote-hero-eyebrow">Your picks, {name}.</p>
-            )}
             <h1 className="vote-hero-hed">Choose your three</h1>
-            <p className="vote-hero-accent">Pick the cases we make.</p>
+            <p className="vote-hero-accent">
+              Pick the cases we make{name ? `, ${name}` : ''}.
+            </p>
             <p className="vote-intro">
               We&rsquo;ve designed eight case colourways and we&rsquo;re only making three.
               The three you pick are a vote for the ones we make.
