@@ -124,7 +124,7 @@ export default function VotePage() {
           {/* Optional feedback */}
           <div className="vote-feedback-wrap">
             <label className="vote-feedback-label" htmlFor="vote-feedback">
-              Any colour or finish you&rsquo;d love to see?
+              Any colour or finish you&rsquo;d love to see in the future?
             </label>
             <textarea
               id="vote-feedback"
