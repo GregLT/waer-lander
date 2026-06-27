@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Select exactly two.' }, { status: 400 })
     }
 
-    const { error } = await supabase.from('votes').insert({
+    const { error } = await getSupabase().from('votes').insert({
       klaviyo_id: klaviyo_id ?? null,
       choice_1: choices[0],
       choice_2: choices[1],

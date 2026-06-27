@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { supabase } from '@/lib/supabase'
+import { getSupabase } from '@/lib/supabase'
 
 const CASES = [
   { id: 'zest',      name: 'Zest',      img: '/assets/cases/zest.jpg' },
@@ -33,8 +33,10 @@ export default function ResultsPage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const sb = getSupabase()
+
     async function fetchAll() {
-      const { data } = await supabase.from('votes').select('choice_1, choice_2')
+      const { data } = await sb.from('votes').select('choice_1, choice_2')
       if (data) {
         setCounts(toCounts(data))
         setTotal(data.length)
@@ -43,7 +45,7 @@ export default function ResultsPage() {
     }
     fetchAll()
 
-    const channel = supabase
+    const channel = sb
       .channel('votes-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
         const row = payload.new as { choice_1: string; choice_2: string }
@@ -56,7 +58,7 @@ export default function ResultsPage() {
       })
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    return () => { sb.removeChannel(channel) }
   }, [])
 
   const sorted = [...CASES].sort((a, b) => (counts[b.id] ?? 0) - (counts[a.id] ?? 0))
