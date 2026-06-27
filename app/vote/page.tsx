@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 const CASES = [
-  { id: 'zest',      name: 'Zest',      img: '/assets/cases/zest.jpg' },
-  { id: 'ink',       name: 'Ink',       img: '/assets/cases/ink.jpg' },
-  { id: 'chrome',    name: 'Chrome',    img: '/assets/cases/chrome.jpg' },
-  { id: 'petal',     name: 'Petal',     img: '/assets/cases/petal.jpg' },
-  { id: 'forest',    name: 'Forest',    img: '/assets/cases/forest.jpg' },
-  { id: 'berry',     name: 'Berry',     img: '/assets/cases/berry.jpg' },
-  { id: 'bubblegum', name: 'Bubblegum', img: '/assets/cases/bubblegum.jpg' },
-  { id: 'ecru',      name: 'Ecru',      img: '/assets/cases/ecru.jpg' },
+  { id: 'zest',      name: 'Zest',      img: '/assets/cases/zest.png' },
+  { id: 'ink',       name: 'Ink',       img: '/assets/cases/ink.png' },
+  { id: 'chrome',    name: 'Chrome',    img: '/assets/cases/chrome.png' },
+  { id: 'petal',     name: 'Petal',     img: '/assets/cases/petal.png' },
+  { id: 'forest',    name: 'Forest',    img: '/assets/cases/forest.png' },
+  { id: 'berry',     name: 'Berry',     img: '/assets/cases/berry.png' },
+  { id: 'bubblegum', name: 'Bubblegum', img: '/assets/cases/bubblegum.png' },
+  { id: 'ecru',      name: 'Ecru',      img: '/assets/cases/ecru.png' },
 ]
 
 export default function VotePage() {
