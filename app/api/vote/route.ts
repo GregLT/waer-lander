@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabase'
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,8 +13,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Select exactly two.' }, { status: 400 })
     }
 
-    // Supabase insertion goes here — wired up in next step
-    console.log('Vote received:', { klaviyo_id, choices, ts })
+    const { error } = await supabase.from('votes').insert({
+      klaviyo_id: klaviyo_id ?? null,
+      choice_1: choices[0],
+      choice_2: choices[1],
+      submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
+    })
+
+    if (error) {
+      console.error('Supabase insert error:', error)
+      return NextResponse.json({ ok: false, error: 'Server error.' }, { status: 500 })
+    }
 
     return NextResponse.json({ ok: true })
   } catch {
