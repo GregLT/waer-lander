@@ -87,11 +87,10 @@ export default function VotePage() {
           <section className="vote-hero">
             <h1 className="vote-hero-hed">Choose your three</h1>
             <p className="vote-hero-accent">
-              Pick the cases we make{name ? `, ${name}` : ''}.
+              Help us shape the line-up{name ? `, ${name}` : ''}.
             </p>
             <p className="vote-intro">
-              We&rsquo;ve designed eight case colourways and we&rsquo;re only making three.
-              The three you pick are a vote for the ones we make.
+              We&rsquo;ve designed eight case colourways and we&rsquo;re narrowing down to a final few. Tell us the three you&rsquo;d reach for &mdash; your picks help guide what we make.
             </p>
           </section>
 
