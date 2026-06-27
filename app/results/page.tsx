@@ -83,7 +83,7 @@ export default function ResultsPage() {
             <div key={c.id} className={`results-row${i < 4 ? ' results-row--top' : ''}`}>
               <div className="results-rank">{i + 1}</div>
               <div className="results-thumb">
-                <Image src={c.img} alt={c.name} fill sizes="56px" style={{ objectFit: 'contain' }} />
+                <Image src={c.img} alt={c.name} fill sizes="56px" style={{ objectFit: 'contain', objectPosition: 'bottom center' }} />
               </div>
               <div className="results-bar-wrap">
                 <div className="results-name-row">
