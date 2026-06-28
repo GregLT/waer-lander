@@ -6,28 +6,29 @@ function klaviyoHeaders(apiKey: string) {
   }
 }
 
-export async function fetchProfileDemographic(klaviyoId: string): Promise<string> {
+export async function fetchProfileDemographicByEmail(email: string): Promise<string> {
   const apiKey = process.env.KLAVIYO_API_KEY
   if (!apiKey) return 'Unknown'
 
   try {
+    const filter = encodeURIComponent(`equals(email,"${email}")`)
     const res = await fetch(
-      `https://a.klaviyo.com/api/profiles/${klaviyoId}?fields[profile]=properties`,
+      `https://a.klaviyo.com/api/profiles/?filter=${filter}&fields[profile]=properties`,
       { headers: { Authorization: `Klaviyo-API-Key ${apiKey}`, revision: '2024-10-15' } }
     )
     if (!res.ok) return 'Unknown'
-    const json = await res.json() as { data?: { attributes?: { properties?: { customer_demographic?: string } } } }
-    return json?.data?.attributes?.properties?.customer_demographic ?? 'Unknown'
+    const json = await res.json() as { data?: Array<{ attributes?: { properties?: { customer_demographic?: string } } }> }
+    return json?.data?.[0]?.attributes?.properties?.customer_demographic ?? 'Unknown'
   } catch {
     return 'Unknown'
   }
 }
 
-export async function fireVoteEvent(klaviyoId: string, choices: string[]): Promise<void> {
+export async function fireVoteEvent(email: string, choices: string[]): Promise<void> {
   const apiKey = process.env.KLAVIYO_API_KEY
   if (!apiKey) {
     if (process.env.NODE_ENV === 'development') { console.warn('[klaviyo] KLAVIYO_API_KEY not set'); return }
-    throw new Error('Klaviyo not configured.')
+    return
   }
 
   const res = await fetch('https://a.klaviyo.com/api/events/', {
@@ -38,7 +39,7 @@ export async function fireVoteEvent(klaviyoId: string, choices: string[]): Promi
         type: 'event',
         attributes: {
           metric: { data: { type: 'metric', attributes: { name: 'Voted for Case' } } },
-          profile: { data: { type: 'profile', id: klaviyoId } },
+          profile: { data: { type: 'profile', attributes: { email } } },
           properties: {
             choice_1: choices[0],
             choice_2: choices[1],
@@ -51,40 +52,6 @@ export async function fireVoteEvent(klaviyoId: string, choices: string[]): Promi
 
   if (res.status === 202 || res.ok) return
   console.error('[klaviyo] fireVoteEvent failed', res.status, await res.text())
-}
-
-export async function subscribeProfileToList(klaviyoId: string): Promise<void> {
-  const apiKey = process.env.KLAVIYO_API_KEY
-  const listId = process.env.KLAVIYO_LIST_ID
-  if (!apiKey || !listId) {
-    if (process.env.NODE_ENV === 'development') { console.warn('[klaviyo] env vars not set'); return }
-    throw new Error('Klaviyo not configured.')
-  }
-
-  const res = await fetch('https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs/', {
-    method: 'POST',
-    headers: klaviyoHeaders(apiKey),
-    body: JSON.stringify({
-      data: {
-        type: 'profile-subscription-bulk-create-job',
-        attributes: {
-          profiles: {
-            data: [{
-              type: 'profile',
-              id: klaviyoId,
-              attributes: {
-                subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } },
-              },
-            }],
-          },
-        },
-        relationships: { list: { data: { type: 'list', id: listId } } },
-      },
-    }),
-  })
-
-  if (res.status === 202 || res.ok) return
-  console.error('[klaviyo] subscribeProfileToList failed', res.status, await res.text())
 }
 
 export async function subscribeToKlaviyo(email: string): Promise<void> {
@@ -101,36 +68,22 @@ export async function subscribeToKlaviyo(email: string): Promise<void> {
 
   const res = await fetch('https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs/', {
     method: 'POST',
-    headers: {
-      Authorization: `Klaviyo-API-Key ${apiKey}`,
-      revision: '2024-10-15',
-      'Content-Type': 'application/json',
-    },
+    headers: klaviyoHeaders(apiKey),
     body: JSON.stringify({
       data: {
         type: 'profile-subscription-bulk-create-job',
         attributes: {
           profiles: {
-            data: [
-              {
-                type: 'profile',
-                attributes: {
-                  email,
-                  subscriptions: {
-                    email: {
-                      marketing: { consent: 'SUBSCRIBED' },
-                    },
-                  },
-                },
+            data: [{
+              type: 'profile',
+              attributes: {
+                email,
+                subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } },
               },
-            ],
+            }],
           },
         },
-        relationships: {
-          list: {
-            data: { type: 'list', id: listId },
-          },
-        },
+        relationships: { list: { data: { type: 'list', id: listId } } },
       },
     }),
   })

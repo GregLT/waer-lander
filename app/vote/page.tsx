@@ -37,7 +37,9 @@ export default function VotePage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    setKlaviyoId(params.get('id'))
+    const rawId = params.get('id')
+    // Klaviyo's {{ person.id }} resolves to the string "None" when unset — treat as null
+    setKlaviyoId(rawId && rawId !== 'None' ? rawId : null)
     setName(sanitiseName(params.get('name')))
   }, [])
 

@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
-import { fireVoteEvent, subscribeProfileToList, fetchProfileDemographic } from '@/lib/klaviyo'
+import { fireVoteEvent, subscribeToKlaviyo, fetchProfileDemographicByEmail } from '@/lib/klaviyo'
 
 export async function POST(req: NextRequest) {
   try {
-    const { klaviyo_id, choices, feedback, ts } = await req.json() as {
-      klaviyo_id?: string
+    const { klaviyo_id, email, choices, feedback, ts } = await req.json() as {
+      klaviyo_id?: string | null
+      email?: string | null
       choices?: string[]
       feedback?: string | null
       ts?: number
@@ -15,9 +16,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Select exactly three.' }, { status: 400 })
     }
 
-    // Fetch demographic before write; never throws — falls back to 'Unknown'
-    const demographic = klaviyo_id
-      ? await fetchProfileDemographic(klaviyo_id)
+    // Fetch demographic if we have an email; never throws — falls back to 'Unknown'
+    const demographic = email
+      ? await fetchProfileDemographicByEmail(email)
       : 'Unknown'
 
     const { error } = await getSupabase().from('votes').insert({
@@ -35,10 +36,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Server error.' }, { status: 500 })
     }
 
-    if (klaviyo_id) {
+    if (email) {
       await Promise.allSettled([
-        fireVoteEvent(klaviyo_id, choices),
-        subscribeProfileToList(klaviyo_id),
+        fireVoteEvent(email, choices),
+        subscribeToKlaviyo(email),
       ])
     }
 
