@@ -6,6 +6,23 @@ function klaviyoHeaders(apiKey: string) {
   }
 }
 
+export async function fetchProfileDemographic(klaviyoId: string): Promise<string> {
+  const apiKey = process.env.KLAVIYO_API_KEY
+  if (!apiKey) return 'Unknown'
+
+  try {
+    const res = await fetch(
+      `https://a.klaviyo.com/api/profiles/${klaviyoId}?fields[profile]=properties`,
+      { headers: { Authorization: `Klaviyo-API-Key ${apiKey}`, revision: '2024-10-15' } }
+    )
+    if (!res.ok) return 'Unknown'
+    const json = await res.json() as { data?: { attributes?: { properties?: { customer_demographic?: string } } } }
+    return json?.data?.attributes?.properties?.customer_demographic ?? 'Unknown'
+  } catch {
+    return 'Unknown'
+  }
+}
+
 export async function fireVoteEvent(klaviyoId: string, choices: string[]): Promise<void> {
   const apiKey = process.env.KLAVIYO_API_KEY
   if (!apiKey) {

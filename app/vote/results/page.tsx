@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Image from 'next/image'
 import { getSupabase } from '@/lib/supabase'
 
@@ -15,10 +15,10 @@ const CASES = [
   { id: 'ecru',      name: 'Ecru',      img: '/assets/cases/ecru.png' },
 ]
 
-type Counts = Record<string, number>
+type VoteRow = { choice_1: string; choice_2: string; choice_3: string; demographic: string }
 
-function toCounts(rows: { choice_1: string; choice_2: string; choice_3: string }[]): Counts {
-  const counts: Counts = {}
+function toCounts(rows: VoteRow[]): Record<string, number> {
+  const counts: Record<string, number> = {}
   for (const c of CASES) counts[c.id] = 0
   for (const row of rows) {
     if (counts[row.choice_1] !== undefined) counts[row.choice_1]++
@@ -29,19 +29,16 @@ function toCounts(rows: { choice_1: string; choice_2: string; choice_3: string }
 }
 
 export default function ResultsPage() {
-  const [counts, setCounts] = useState<Counts>({})
-  const [total, setTotal] = useState(0)
+  const [allVotes, setAllVotes] = useState<VoteRow[]>([])
+  const [filter, setFilter] = useState('All')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const sb = getSupabase()
 
     async function fetchAll() {
-      const { data } = await sb.from('votes').select('choice_1, choice_2, choice_3')
-      if (data) {
-        setCounts(toCounts(data))
-        setTotal(data.length)
-      }
+      const { data } = await sb.from('votes').select('choice_1, choice_2, choice_3, demographic')
+      if (data) setAllVotes(data as VoteRow[])
       setLoading(false)
     }
     fetchAll()
@@ -49,19 +46,30 @@ export default function ResultsPage() {
     const channel = sb
       .channel('votes-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
-        const row = payload.new as { choice_1: string; choice_2: string; choice_3: string }
-        setCounts(prev => ({
-          ...prev,
-          [row.choice_1]: (prev[row.choice_1] ?? 0) + 1,
-          [row.choice_2]: (prev[row.choice_2] ?? 0) + 1,
-          [row.choice_3]: (prev[row.choice_3] ?? 0) + 1,
-        }))
-        setTotal(prev => prev + 1)
+        const row = payload.new as VoteRow
+        setAllVotes(prev => [...prev, row])
       })
       .subscribe()
 
     return () => { sb.removeChannel(channel) }
   }, [])
+
+  // Distinct demographics, sorted alphabetically, Unknown last
+  const demographics = useMemo(() => {
+    const set = new Set(allVotes.map(v => v.demographic ?? 'Unknown'))
+    set.delete('Unknown')
+    return [...Array.from(set).sort(), 'Unknown']
+  }, [allVotes])
+
+  const filteredVotes = useMemo(() =>
+    filter === 'All' ? allVotes : allVotes.filter(v => (v.demographic ?? 'Unknown') === filter),
+    [allVotes, filter]
+  )
+
+  const counts = useMemo(() => toCounts(filteredVotes), [filteredVotes])
+  const total = filteredVotes.length
+  const unknownCount = filteredVotes.filter(v => (v.demographic ?? 'Unknown') === 'Unknown').length
+  const unknownPct = total > 0 ? Math.round((unknownCount / total) * 100) : 0
 
   const sorted = [...CASES].sort((a, b) => (counts[b.id] ?? 0) - (counts[a.id] ?? 0))
   const max = Math.max(...Object.values(counts), 1)
@@ -74,13 +82,33 @@ export default function ResultsPage() {
 
       <section className="results-hero">
         <h1 className="results-hed">Live results</h1>
-        <p className="results-total">{loading ? '—' : total} {total === 1 ? 'vote' : 'votes'} cast</p>
+        <p className="results-total">{loading ? '—' : total} {total === 1 ? 'vote' : 'votes'} in view</p>
       </section>
+
+      <div className="results-filter-row">
+        <select
+          className="results-filter-select"
+          value={filter}
+          onChange={e => setFilter(e.target.value)}
+        >
+          <option value="All">All demographics</option>
+          {demographics.map(d => (
+            <option key={d} value={d}>{d}</option>
+          ))}
+        </select>
+
+        {filter === 'All' && total > 0 && (
+          <span className="results-unknown-badge">
+            {unknownCount} Unknown ({unknownPct}%)
+          </span>
+        )}
+      </div>
 
       <div className="results-list">
         {sorted.map((c, i) => {
           const count = counts[c.id] ?? 0
-          const pct = Math.round((count / max) * 100)
+          const barPct = Math.round((count / max) * 100)
+          const sharePct = total > 0 ? Math.round((count / total) * 100) : 0
           return (
             <div key={c.id} className={`results-row${i < 3 ? ' results-row--top' : ''}`}>
               <div className="results-rank">{i + 1}</div>
@@ -90,10 +118,10 @@ export default function ResultsPage() {
               <div className="results-bar-wrap">
                 <div className="results-name-row">
                   <span className="results-name">{c.name}</span>
-                  <span className="results-count">{count}</span>
+                  <span className="results-count">{count} · {sharePct}%</span>
                 </div>
                 <div className="results-track">
-                  <div className="results-fill" style={{ width: `${pct}%` }} />
+                  <div className="results-fill" style={{ width: `${barPct}%` }} />
                 </div>
               </div>
             </div>

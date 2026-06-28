@@ -738,6 +738,38 @@ footer {
 .results-row--top .results-fill {
   background: var(--accent);
 }
+.results-filter-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-base);
+  padding: 0 var(--space-m) var(--space-m);
+  flex-wrap: wrap;
+}
+.results-filter-select {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: var(--space-xs) var(--space-s);
+  cursor: pointer;
+  outline: none;
+}
+.results-filter-select:focus {
+  border-color: var(--color-text);
+}
+.results-unknown-badge {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-40);
+}
+
 .results-live-badge {
   position: fixed;
   bottom: var(--space-base);

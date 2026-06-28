@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
-import { fireVoteEvent, subscribeProfileToList } from '@/lib/klaviyo'
+import { fireVoteEvent, subscribeProfileToList, fetchProfileDemographic } from '@/lib/klaviyo'
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,12 +15,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: 'Select exactly three.' }, { status: 400 })
     }
 
+    // Fetch demographic before write; never throws — falls back to 'Unknown'
+    const demographic = klaviyo_id
+      ? await fetchProfileDemographic(klaviyo_id)
+      : 'Unknown'
+
     const { error } = await getSupabase().from('votes').insert({
       klaviyo_id: klaviyo_id ?? null,
       choice_1: choices[0],
       choice_2: choices[1],
       choice_3: choices[2],
       feedback: feedback ?? null,
+      demographic,
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 
