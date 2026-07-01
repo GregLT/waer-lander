@@ -54,6 +54,55 @@ export async function fireVoteEvent(email: string, choices: string[]): Promise<v
   console.error('[klaviyo] fireVoteEvent failed', res.status, await res.text())
 }
 
+export async function fireWardrobeSurveyEvent(
+  klaviyoId: string,
+  answers: { q1_count: string; q2_cases: string; q3_subscription: string; q4_refill_frequency: string }
+): Promise<void> {
+  const apiKey = process.env.KLAVIYO_API_KEY
+  if (!apiKey) {
+    if (process.env.NODE_ENV === 'development') { console.warn('[klaviyo] KLAVIYO_API_KEY not set'); return }
+    return
+  }
+
+  const res = await fetch('https://a.klaviyo.com/api/events/', {
+    method: 'POST',
+    headers: klaviyoHeaders(apiKey),
+    body: JSON.stringify({
+      data: {
+        type: 'event',
+        attributes: {
+          metric: { data: { type: 'metric', attributes: { name: 'Answered Wardrobe Survey' } } },
+          profile: { data: { type: 'profile', id: klaviyoId } },
+          properties: answers,
+        },
+      },
+    }),
+  })
+
+  if (res.status === 202 || res.ok) return
+  console.error('[klaviyo] fireWardrobeSurveyEvent failed', res.status, await res.text())
+}
+
+export async function subscribeProfileById(klaviyoId: string): Promise<void> {
+  const apiKey = process.env.KLAVIYO_API_KEY
+  const listId = process.env.KLAVIYO_LIST_ID
+
+  if (!apiKey || !listId) {
+    if (process.env.NODE_ENV === 'development') { console.warn('[klaviyo] env vars not set — skipping in dev'); return }
+    return
+  }
+
+  const res = await fetch(`https://a.klaviyo.com/api/lists/${listId}/relationships/profiles/`, {
+    method: 'POST',
+    headers: klaviyoHeaders(apiKey),
+    body: JSON.stringify({ data: [{ type: 'profile', id: klaviyoId }] }),
+  })
+
+  // 204 No Content = profile added to list
+  if (res.status === 204 || res.ok) return
+  console.error('[klaviyo] subscribeProfileById failed', res.status, await res.text())
+}
+
 export async function subscribeToKlaviyo(email: string): Promise<void> {
   const apiKey = process.env.KLAVIYO_API_KEY
   const listId = process.env.KLAVIYO_LIST_ID

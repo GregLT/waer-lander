@@ -790,3 +790,81 @@ footer {
   .results-hero { padding: var(--space-base); }
   .results-list { padding: 0 var(--space-base) var(--space-xl); }
 }
+
+
+/* ─── Wardrobe survey page ───────────────────────────── */
+.wardrobe-questions {
+  padding: 0 var(--space-m) var(--space-xl);
+  max-width: 720px;
+}
+
+.wardrobe-question {
+  padding: var(--space-l) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.wardrobe-question:last-child {
+  border-bottom: none;
+}
+
+.wardrobe-question-setup {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-sm);
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  color: var(--color-text-60);
+  margin: 0 0 var(--space-m);
+  max-width: 54ch;
+}
+
+.wardrobe-question-hed {
+  font-family: var(--font-display, sans-serif);
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0 0 var(--space-m);
+}
+
+.wardrobe-answers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+.wardrobe-answer {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.wardrobe-answer:hover:not(.wardrobe-answer--selected) {
+  border-color: var(--color-text-40);
+}
+
+.wardrobe-answer--selected {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+@media (max-width: 900px) {
+  .wardrobe-questions { padding: 0 var(--space-base) var(--space-xl); }
+  .wardrobe-question { padding: var(--space-m) 0; }
+  .wardrobe-answers { gap: var(--space-xs); }
+  .wardrobe-answer { padding: 9px 14px; }
+}
