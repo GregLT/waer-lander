@@ -31,6 +31,7 @@ export default function WardrobePage() {
   const [q3, setQ3] = useState<string | null>(null)
   const [q3b, setQ3b] = useState<string | null>(null)
   const [q4, setQ4] = useState<string | null>(null)
+  const [q4_preferred_price, setQ4PreferredPrice] = useState('')
   const [q5, setQ5] = useState<string | null>(null)
   const [q6, setQ6] = useState('')
   const [email, setEmail] = useState<string | null>(null)
@@ -46,7 +47,8 @@ export default function WardrobePage() {
     setName(sanitiseName(params.get('name')))
   }, [])
 
-  useEffect(() => { setQ4(null) }, [q1])
+  useEffect(() => { setQ4(null); setQ4PreferredPrice('') }, [q1])
+  useEffect(() => { if (q4 !== 'A bit much' && q4 !== 'Too expensive') setQ4PreferredPrice('') }, [q4])
   useEffect(() => { setQ3(null); setQ3b(null) }, [q2])
 
   const isSubscriber = q2 === "Yes, I'd subscribe" || q2 === "Maybe, if it was flexible"
@@ -74,6 +76,7 @@ export default function WardrobePage() {
           q3_cadence: isSubscriber ? q3 : null,
           q3_buy_timing: isNonSubscriber ? q3b : null,
           q4_price_reaction: q4,
+          q4_preferred_price: q4_preferred_price.trim() || null,
           q4_bundle_shown: q1 === 'Case + 2 Fragrances' ? 'case-2' : q1 === 'Case + 3 Fragrances' ? 'case-3' : 'case-1',
           q5_purchase_intent: q5,
           q5_text: q6.trim() || null,
@@ -178,6 +181,20 @@ export default function WardrobePage() {
                     >{a}</button>
                   ))}
                 </div>
+                {(q4 === 'A bit much' || q4 === 'Too expensive') && (
+                  <div className="wardrobe-freetext" style={{ marginTop: 'var(--space-s)' }}>
+                    <input
+                      className="vote-feedback-input"
+                      type="text"
+                      placeholder="What price would you be happy to pay?"
+                      maxLength={50}
+                      value={q4_preferred_price}
+                      onChange={e => setQ4PreferredPrice(e.target.value)}
+                      disabled={submitting}
+                      style={{ width: '100%', padding: '10px 14px' }}
+                    />
+                  </div>
+                )}
               </section>
             )}
 

@@ -11,6 +11,7 @@ export async function POST(req: NextRequest) {
       q3_cadence,
       q3_buy_timing,
       q4_price_reaction,
+      q4_preferred_price,
       q4_bundle_shown,
       q5_purchase_intent,
       q5_text,
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
       q3_cadence?: string | null
       q3_buy_timing?: string | null
       q4_price_reaction?: string | null
+      q4_preferred_price?: string | null
       q4_bundle_shown?: string
       q5_purchase_intent?: string | null
       q5_text?: string | null
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
       q3_cadence: q3_cadence ?? null,
       q3_buy_timing: q3_buy_timing ?? null,
       q4_price_reaction: q4_price_reaction ?? null,
+      q4_preferred_price: q4_preferred_price ?? null,
       q4_bundle_shown: q4_bundle_shown ?? null,
       q5_purchase_intent: q5_purchase_intent ?? null,
       q5_text: q5_text ?? null,
