@@ -32,6 +32,7 @@ export default function WardrobePage() {
   const [q3b, setQ3b] = useState<string | null>(null)
   const [q4, setQ4] = useState<string | null>(null)
   const [q5, setQ5] = useState<string | null>(null)
+  const [q6, setQ6] = useState('')
   const [email, setEmail] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -75,6 +76,7 @@ export default function WardrobePage() {
           q4_price_reaction: q4,
           q4_bundle_shown: q1 === 'Case + 2 Fragrances' ? 'case-2' : q1 === 'Case + 3 Fragrances' ? 'case-3' : 'case-1',
           q5_purchase_intent: q5,
+          q5_text: q6.trim() || null,
           ts: Date.now(),
         }),
       })
@@ -189,6 +191,24 @@ export default function WardrobePage() {
                 {Q5_ANSWERS.map(a => (
                   <button key={a} className={`wardrobe-answer${q5 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ5(a)}>{a}</button>
                 ))}
+              </div>
+            </section>
+
+            {/* Q6 – optional free text */}
+            <section className="wardrobe-question">
+              <p className="wardrobe-question-setup">Here&rsquo;s something we found: 85% of the people we spoke to said they don&rsquo;t actually enjoy buying fragrance. We&rsquo;re building WAER to change that.</p>
+              <h2 className="wardrobe-question-hed">So tell us, what&rsquo;s the one thing WAER should get right?</h2>
+              <div className="wardrobe-freetext">
+                <textarea
+                  className="vote-feedback-input"
+                  placeholder="Optional"
+                  rows={3}
+                  maxLength={500}
+                  value={q6}
+                  onChange={e => setQ6(e.target.value)}
+                  disabled={submitting}
+                />
+                <p className="wardrobe-freetext-hint">A sentence is plenty. No wrong answers.</p>
               </div>
             </section>
 

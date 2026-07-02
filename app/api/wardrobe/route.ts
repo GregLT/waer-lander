@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
       q4_price_reaction,
       q4_bundle_shown,
       q5_purchase_intent,
+      q5_text,
       ts,
     } = await req.json() as {
       email?: string | null
@@ -23,6 +24,7 @@ export async function POST(req: NextRequest) {
       q4_price_reaction?: string | null
       q4_bundle_shown?: string
       q5_purchase_intent?: string | null
+      q5_text?: string | null
       ts?: number
     }
 
@@ -44,6 +46,7 @@ export async function POST(req: NextRequest) {
       q4_price_reaction: q4_price_reaction ?? null,
       q4_bundle_shown: q4_bundle_shown ?? null,
       q5_purchase_intent: q5_purchase_intent ?? null,
+      q5_text: q5_text ?? null,
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 
