@@ -16,6 +16,14 @@ const CASES = [
 ]
 
 type VoteRow = { choice_1: string; choice_2: string; choice_3: string; demographic: string }
+type WardrobeRow = {
+  q1_starter: string | null
+  q2_subscription: string | null
+  q2b_benefit: string | null
+  q3_cadence: string | null
+  q4_price_reaction: string | null
+  customer_demographic: string | null
+}
 
 function toCounts(rows: VoteRow[]): Record<string, number> {
   const counts: Record<string, number> = {}
@@ -28,8 +36,44 @@ function toCounts(rows: VoteRow[]): Record<string, number> {
   return counts
 }
 
+function countField(rows: WardrobeRow[], field: keyof WardrobeRow): Record<string, number> {
+  const counts: Record<string, number> = {}
+  for (const row of rows) {
+    const val = row[field]
+    if (val) counts[val] = (counts[val] ?? 0) + 1
+  }
+  return counts
+}
+
+function QuestionBreakdown({ label, counts, total }: { label: string; counts: Record<string, number>; total: number }) {
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1])
+  if (!entries.length) return null
+  const max = Math.max(...entries.map(e => e[1]), 1)
+  return (
+    <div className="wardrobe-q-block">
+      <p className="wardrobe-q-label">{label}</p>
+      {entries.map(([key, count]) => {
+        const barPct = Math.round((count / max) * 100)
+        const sharePct = total > 0 ? Math.round((count / total) * 100) : 0
+        return (
+          <div key={key} className="results-bar-wrap" style={{ marginBottom: 8 }}>
+            <div className="results-name-row">
+              <span className="results-name">{key}</span>
+              <span className="results-count">{count} · {sharePct}%</span>
+            </div>
+            <div className="results-track">
+              <div className="results-fill" style={{ width: `${barPct}%` }} />
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function ResultsPage() {
   const [allVotes, setAllVotes] = useState<VoteRow[]>([])
+  const [allWardrobe, setAllWardrobe] = useState<WardrobeRow[]>([])
   const [filter, setFilter] = useState('All')
   const [loading, setLoading] = useState(true)
 
@@ -37,53 +81,75 @@ export default function ResultsPage() {
     const sb = getSupabase()
 
     async function fetchAll() {
-      const { data } = await sb.from('votes').select('choice_1, choice_2, choice_3, demographic')
-      if (data) setAllVotes(data as VoteRow[])
+      const [votesRes, wardrobeRes] = await Promise.all([
+        sb.from('votes').select('choice_1, choice_2, choice_3, demographic'),
+        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q2b_benefit, q3_cadence, q4_price_reaction, customer_demographic'),
+      ])
+      if (votesRes.data) setAllVotes(votesRes.data as VoteRow[])
+      if (wardrobeRes.data) setAllWardrobe(wardrobeRes.data as WardrobeRow[])
       setLoading(false)
     }
     fetchAll()
 
-    const channel = sb
+    const sb2 = getSupabase()
+    const voteChannel = sb2
       .channel('votes-live')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'votes' }, payload => {
-        const row = payload.new as VoteRow
-        setAllVotes(prev => [...prev, row])
+        setAllVotes(prev => [...prev, payload.new as VoteRow])
       })
       .subscribe()
 
-    return () => { sb.removeChannel(channel) }
+    const wardrobeChannel = sb2
+      .channel('wardrobe-live')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'wardrobe_responses_v2' }, payload => {
+        setAllWardrobe(prev => [...prev, payload.new as WardrobeRow])
+      })
+      .subscribe()
+
+    return () => {
+      sb2.removeChannel(voteChannel)
+      sb2.removeChannel(wardrobeChannel)
+    }
   }, [])
 
-  // Distinct demographics, sorted alphabetically, Unknown last
   const demographics = useMemo(() => {
-    const set = new Set(allVotes.map(v => v.demographic ?? 'Unknown'))
+    const set = new Set<string>()
+    allVotes.forEach(v => set.add(v.demographic ?? 'Unknown'))
+    allWardrobe.forEach(w => set.add(w.customer_demographic ?? 'Unknown'))
     set.delete('Unknown')
     return [...Array.from(set).sort(), 'Unknown']
-  }, [allVotes])
+  }, [allVotes, allWardrobe])
 
   const filteredVotes = useMemo(() =>
     filter === 'All' ? allVotes : allVotes.filter(v => (v.demographic ?? 'Unknown') === filter),
     [allVotes, filter]
   )
 
+  const filteredWardrobe = useMemo(() =>
+    filter === 'All' ? allWardrobe : allWardrobe.filter(w => (w.customer_demographic ?? 'Unknown') === filter),
+    [allWardrobe, filter]
+  )
+
   const counts = useMemo(() => toCounts(filteredVotes), [filteredVotes])
-  const total = filteredVotes.length
+  const voteTotal = filteredVotes.length
   const unknownCount = filteredVotes.filter(v => (v.demographic ?? 'Unknown') === 'Unknown').length
-  const unknownPct = total > 0 ? Math.round((unknownCount / total) * 100) : 0
+  const unknownPct = voteTotal > 0 ? Math.round((unknownCount / voteTotal) * 100) : 0
 
   const sorted = [...CASES].sort((a, b) => (counts[b.id] ?? 0) - (counts[a.id] ?? 0))
   const max = Math.max(...Object.values(counts), 1)
+
+  const wTotal = filteredWardrobe.length
+  const q1Counts = useMemo(() => countField(filteredWardrobe, 'q1_starter'), [filteredWardrobe])
+  const q2Counts = useMemo(() => countField(filteredWardrobe, 'q2_subscription'), [filteredWardrobe])
+  const q2bCounts = useMemo(() => countField(filteredWardrobe, 'q2b_benefit'), [filteredWardrobe])
+  const q3Counts = useMemo(() => countField(filteredWardrobe, 'q3_cadence'), [filteredWardrobe])
+  const q4Counts = useMemo(() => countField(filteredWardrobe, 'q4_price_reaction'), [filteredWardrobe])
 
   return (
     <div className="results-page">
       <header className="vote-header">
         <Image src="/assets/WAER_Wordmark_Black.png" alt="WAER" width={3000} height={734} style={{ height: 16, width: 'auto' }} priority />
       </header>
-
-      <section className="results-hero">
-        <h1 className="results-hed">Live results</h1>
-        <p className="results-total">{loading ? '—' : total} {total === 1 ? 'vote' : 'votes'} in view</p>
-      </section>
 
       <div className="results-filter-row">
         <select
@@ -97,18 +163,24 @@ export default function ResultsPage() {
           ))}
         </select>
 
-        {filter === 'All' && total > 0 && (
+        {filter === 'All' && voteTotal > 0 && (
           <span className="results-unknown-badge">
             {unknownCount} Unknown ({unknownPct}%)
           </span>
         )}
       </div>
 
+      {/* Case vote results */}
+      <section className="results-hero">
+        <h1 className="results-hed">Case vote</h1>
+        <p className="results-total">{loading ? '—' : voteTotal} {voteTotal === 1 ? 'vote' : 'votes'} in view</p>
+      </section>
+
       <div className="results-list">
         {sorted.map((c, i) => {
           const count = counts[c.id] ?? 0
           const barPct = Math.round((count / max) * 100)
-          const sharePct = total > 0 ? Math.round((count / total) * 100) : 0
+          const sharePct = voteTotal > 0 ? Math.round((count / voteTotal) * 100) : 0
           return (
             <div key={c.id} className={`results-row${i < 3 ? ' results-row--top' : ''}`}>
               <div className="results-rank">{i + 1}</div>
@@ -127,6 +199,32 @@ export default function ResultsPage() {
             </div>
           )
         })}
+      </div>
+
+      <p className="results-live-badge">● Live</p>
+
+      {/* Wardrobe survey results */}
+      <section className="results-hero" style={{ paddingTop: 'var(--space-xl)', borderTop: '1px solid var(--rule)' }}>
+        <h1 className="results-hed">Wardrobe survey</h1>
+        <p className="results-total">{loading ? '—' : wTotal} {wTotal === 1 ? 'response' : 'responses'} in view</p>
+      </section>
+
+      <div className="results-list" style={{ display: 'block' }}>
+        {wTotal === 0 && !loading ? (
+          <p style={{ color: 'var(--color-text-40)', fontSize: 'var(--type-s)' }}>No responses yet.</p>
+        ) : (
+          <>
+            <QuestionBreakdown label="Starter wardrobe" counts={q1Counts} total={wTotal} />
+            <QuestionBreakdown label="Subscription interest" counts={q2Counts} total={wTotal} />
+            {Object.keys(q2bCounts).length > 0 && (
+              <QuestionBreakdown label="What would make it worth it?" counts={q2bCounts} total={Object.values(q2bCounts).reduce((a, b) => a + b, 0)} />
+            )}
+            <QuestionBreakdown label="Refill cadence" counts={q3Counts} total={wTotal} />
+            {Object.keys(q4Counts).length > 0 && (
+              <QuestionBreakdown label="Price reaction" counts={q4Counts} total={Object.values(q4Counts).reduce((a, b) => a + b, 0)} />
+            )}
+          </>
+        )}
       </div>
 
       <p className="results-live-badge">● Live</p>

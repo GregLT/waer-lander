@@ -3,14 +3,17 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
-const Q1_ANSWERS = ['Case + 1 scent', 'Case + 2 scents', 'Case + 3 scents'] as const
+const Q1_ANSWERS = ['Case + 1 x 10ml', 'Case + 2 x 10ml', 'Case + 3 x 10ml'] as const
 const Q2_ANSWERS = ['Yes', 'Maybe', 'Not for me'] as const
 const Q2B_ANSWERS = ['Exclusive scents', 'Free delivery', 'A discount on orders', 'Never running out'] as const
 const Q3_ANSWERS = ['Monthly', 'Every 2 months', 'Quarterly'] as const
 const Q4_ANSWERS = ['Great value', 'About right', 'A bit much', 'Too expensive'] as const
 
 function q4Text(q1: string) {
-  if (q1 === 'Case + 2 scents') {
+  if (q1 === 'Case + 1 x 10ml') {
+    return 'Your starter set, case and one 10ml scent, is £30, or £24 on subscription. How does that feel?'
+  }
+  if (q1 === 'Case + 2 x 10ml') {
     return 'Your starter wardrobe, case and two 10ml scents, is £45, or £36 on subscription. How does that feel?'
   }
   return 'Your starter wardrobe, case and three 10ml scents, is £60, or £50 on subscription. How does that feel?'
@@ -52,8 +55,7 @@ export default function WardrobePage() {
   useEffect(() => { if (q2 !== 'Yes' && q2 !== 'Maybe') setQ2b(null) }, [q2])
 
   const showQ2b = q2 === 'Yes' || q2 === 'Maybe'
-  // Q4 price reaction only applies when there's a wardrobe bundle to price
-  const showQ4 = q1 !== null && q1 !== 'Case + 1 scent'
+  const showQ4 = q1 !== null
   const q4Locked = !q1
 
   let answeredCount = [q1, q2, q3].filter(Boolean).length
@@ -78,7 +80,7 @@ export default function WardrobePage() {
           q2b_benefit: q2b ?? null,
           q3_cadence: q3,
           q4_price_reaction: q4,
-          q4_bundle_shown: q1 === 'Case + 2 scents' ? 'case-2' : q1 === 'Case + 3 scents' ? 'case-3' : 'case-1',
+          q4_bundle_shown: q1 === 'Case + 2 x 10ml' ? 'case-2' : q1 === 'Case + 3 x 10ml' ? 'case-3' : 'case-1',
           q5_text: q5.trim() || null,
           ts: Date.now(),
         }),
@@ -123,6 +125,7 @@ export default function WardrobePage() {
                   <button key={a} className={`wardrobe-answer${q1 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ1(a)}>{a}</button>
                 ))}
               </div>
+              <p className="wardrobe-freetext-hint">10ml lasts 20&ndash;30 days depending on usage.</p>
             </section>
 
             {/* Q2 */}
@@ -160,8 +163,8 @@ export default function WardrobePage() {
               </div>
             </section>
 
-            {/* Q4 – price reaction, only for 2- and 3-scent bundles; locked until Q1 answered */}
-            {q1 !== 'Case + 1 scent' && (
+            {/* Q4 – price reaction; locked until Q1 answered */}
+            {(
               <section className={`wardrobe-question${q4Locked ? ' wardrobe-question--locked' : ''}`}>
                 <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
                 <h2 className="wardrobe-question-hed">
