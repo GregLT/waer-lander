@@ -862,9 +862,40 @@ footer {
   color: var(--color-bg);
 }
 
+/* Follow-up question: left rule to show it's conditional */
+.wardrobe-question--follow-up {
+  border-left: 2px solid var(--rule);
+  padding-left: var(--space-m);
+  border-bottom: none;
+  padding-top: 0;
+  margin-bottom: var(--space-m);
+}
+
+/* Locked question: dimmed and non-interactive until dependency answered */
+.wardrobe-question--locked {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Free-text question wrapper */
+.wardrobe-freetext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-width: 520px;
+}
+.wardrobe-freetext-hint {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  letter-spacing: 0.03em;
+  color: var(--color-text-40);
+  margin: 0;
+}
+
 @media (max-width: 900px) {
   .wardrobe-questions { padding: 0 var(--space-base) var(--space-xl); }
   .wardrobe-question { padding: var(--space-m) 0; }
+  .wardrobe-question--follow-up { padding-left: var(--space-base); }
   .wardrobe-answers { gap: var(--space-xs); }
   .wardrobe-answer { padding: 9px 14px; }
 }
