@@ -29,10 +29,16 @@ type WardrobeRow = {
   customer_demographic: string | null
 }
 
-const BUNDLE_LABELS: Record<string, string> = {
+const BUNDLE_LABELS_V2: Record<string, string> = {
   'case-1': 'Case + 1 Fragrance — £20 sub / £25 one-off',
   'case-2': 'Case + 2 Fragrances — £35 sub / £42 one-off',
   'case-3': 'Case + 3 Fragrances — £42 sub / £50 one-off',
+}
+
+const BUNDLE_LABELS_V1: Record<string, string> = {
+  'case-1': 'Case + 1 Fragrance — £35 (no sub/one-off stated)',
+  'case-2': 'Case + 2 Fragrances — £40 (no sub/one-off stated)',
+  'case-3': 'Case + 3 Fragrances — £45 (no sub/one-off stated)',
 }
 
 const VERSION_TABS = [
@@ -87,7 +93,7 @@ function QuestionBreakdown({ label, counts, total }: { label: string; counts: Re
   )
 }
 
-function PreferredPrices({ rows }: { rows: WardrobeRow[] }) {
+function PreferredPrices({ rows, bundleLabels }: { rows: WardrobeRow[]; bundleLabels: Record<string, string> }) {
   const byBundle = useMemo(() => {
     const result: Record<string, string[]> = {}
     for (const row of rows) {
@@ -107,7 +113,7 @@ function PreferredPrices({ rows }: { rows: WardrobeRow[] }) {
       {bundles.map(bundle => (
         <div key={bundle} style={{ marginBottom: 'var(--space-s)' }}>
           <p style={{ fontSize: 'var(--type-xs)', color: 'var(--color-text-40)', margin: '0 0 4px', fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-            {BUNDLE_LABELS[bundle]}
+            {bundleLabels[bundle]}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             {byBundle[bundle].map((price, i) => (
@@ -195,6 +201,8 @@ export default function ResultsPage() {
 
   const sorted = [...CASES].sort((a, b) => (counts[b.id] ?? 0) - (counts[a.id] ?? 0))
   const max = Math.max(...Object.values(counts), 1)
+
+  const bundleLabels = versionTab === 'v1-price-unclear' ? BUNDLE_LABELS_V1 : BUNDLE_LABELS_V2
 
   const wTotal = filteredWardrobe.length
   const q1Counts = useMemo(() => countField(filteredWardrobe, 'q1_starter'), [filteredWardrobe])
@@ -306,9 +314,9 @@ export default function ResultsPage() {
               const bundleCounts = q4ByBundle[bundle]
               if (!bundleCounts || !Object.keys(bundleCounts).length) return null
               const total = Object.values(bundleCounts).reduce((a, b) => a + b, 0)
-              return <QuestionBreakdown key={bundle} label={`Price reaction — ${BUNDLE_LABELS[bundle]}`} counts={bundleCounts} total={total} />
+              return <QuestionBreakdown key={bundle} label={`Price reaction — ${bundleLabels[bundle]}`} counts={bundleCounts} total={total} />
             })}
-            <PreferredPrices rows={filteredWardrobe} />
+            <PreferredPrices rows={filteredWardrobe} bundleLabels={bundleLabels} />
             {Object.keys(q5Counts).length > 0 && (
               <QuestionBreakdown label="Would buy at launch" counts={q5Counts} total={Object.values(q5Counts).reduce((a, b) => a + b, 0)} />
             )}
