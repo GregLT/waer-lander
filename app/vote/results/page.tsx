@@ -28,9 +28,9 @@ type WardrobeRow = {
 }
 
 const BUNDLE_LABELS: Record<string, string> = {
-  'case-1': 'Case + 1 Fragrance — £35',
-  'case-2': 'Case + 2 Fragrances — £40',
-  'case-3': 'Case + 3 Fragrances — £45',
+  'case-1': 'Case + 1 Fragrance — £30 / £24 sub',
+  'case-2': 'Case + 2 Fragrances — £45 / £36 sub',
+  'case-3': 'Case + 3 Fragrances — £60 / £50 sub',
 }
 
 function toCounts(rows: VoteRow[]): Record<string, number> {

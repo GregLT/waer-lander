@@ -10,10 +10,10 @@ const Q3_BUY = ['When I run out', 'When a new scent drops', 'Seasonally', 'As a 
 const Q4_ANSWERS = ['Great value', 'About right', 'A bit much', 'Too expensive'] as const
 const Q5_ANSWERS = ['Yes, definitely', 'Probably', 'Not sure yet', 'Not for me'] as const
 
-const PRICES: Record<string, string> = {
-  'Case + 1 Fragrance': '£35',
-  'Case + 2 Fragrances': '£40',
-  'Case + 3 Fragrances': '£45',
+const PRICES: Record<string, { full: string; sub: string }> = {
+  'Case + 1 Fragrance': { full: '£30', sub: '£24' },
+  'Case + 2 Fragrances': { full: '£45', sub: '£36' },
+  'Case + 3 Fragrances': { full: '£60', sub: '£50' },
 }
 
 function sanitiseName(raw: string | null): string | null {
@@ -77,6 +77,7 @@ export default function WardrobePage() {
           q4_bundle_shown: q1 === 'Case + 2 Fragrances' ? 'case-2' : q1 === 'Case + 3 Fragrances' ? 'case-3' : 'case-1',
           q5_purchase_intent: q5,
           q5_text: q6.trim() || null,
+          survey_version: 'v2',
           ts: Date.now(),
         }),
       })
@@ -166,7 +167,8 @@ export default function WardrobePage() {
             {q1 && (
               <section className="wardrobe-question">
                 <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
-                <h2 className="wardrobe-question-hed">{`How does ${PRICES[q1]} for ${q1} feel?`}</h2>
+                <h2 className="wardrobe-question-hed">{`How does ${PRICES[q1].full} for ${q1} feel?`}</h2>
+                <p className="wardrobe-question-setup">{`${PRICES[q1].full} to buy outright, or ${PRICES[q1].sub} on subscription.`}</p>
                 <div className="wardrobe-answers">
                   {Q4_ANSWERS.map(a => (
                     <button
