@@ -3,38 +3,17 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
-const QUESTIONS = [
-  {
-    key: 'q1_count' as const,
-    setup: "You already know the feeling of reaching for a different scent depending on your day. That was the heart of DIEM, and it's the whole idea behind WAER.",
-    question: "How many fragrances belong in a wardrobe?",
-    answers: ['2–3', '4–5', '6+', 'Just one'],
-  },
-  {
-    key: 'q2_cases' as const,
-    setup: "With DIEM, one case carried your scent. We're wondering whether one is still right, or whether different moods deserve their own.",
-    question: "One refillable case, or a few?",
-    answers: ['One is all I need', 'A couple for different moods', 'A little collection'],
-  },
-  {
-    key: 'q3_subscription' as const,
-    setup: "You've lived the refill model, so you know what works and what doesn't. That experience is what we want to build around.",
-    question: "What would make a subscription genuinely worth it?",
-    answers: ['A better price', 'Freedom to swap scents', 'Discovering new ones', 'Never running out'],
-  },
-  {
-    key: 'q4_refill_frequency' as const,
-    setup: "Back in your DIEM days, everyone refilled at their own pace. It helps us to know yours.",
-    question: "How often did you refill?",
-    answers: ['Monthly or more', 'Every few months', 'Now and then', "I can't remember"],
-  },
-]
+const Q1_ANSWERS = ['Case + 2 scents', 'Case + 3 scents'] as const
+const Q2_ANSWERS = ['Yes', 'Maybe', 'Not for me'] as const
+const Q2B_ANSWERS = ['Exclusive scents', 'Free delivery', 'A discount on orders', 'Never running out'] as const
+const Q3_ANSWERS = ['Monthly', 'Every 2 months', 'Quarterly'] as const
+const Q4_ANSWERS = ['Great value', 'About right', 'A bit much', 'Too expensive'] as const
 
-type Answers = {
-  q1_count?: string
-  q2_cases?: string
-  q3_subscription?: string
-  q4_refill_frequency?: string
+function q4Text(q1: string) {
+  if (q1 === 'Case + 2 scents') {
+    return 'Your starter wardrobe, case and two 10ml scents, is £45, or £36 on subscription. How does that feel?'
+  }
+  return 'Your starter wardrobe, case and three 10ml scents, is £60, or £50 on subscription. How does that feel?'
 }
 
 function sanitiseName(raw: string | null): string | null {
@@ -47,7 +26,12 @@ function sanitiseName(raw: string | null): string | null {
 }
 
 export default function WardrobePage() {
-  const [answers, setAnswers] = useState<Answers>({})
+  const [q1, setQ1] = useState<string | null>(null)
+  const [q2, setQ2] = useState<string | null>(null)
+  const [q2b, setQ2b] = useState<string | null>(null)
+  const [q3, setQ3] = useState<string | null>(null)
+  const [q4, setQ4] = useState<string | null>(null)
+  const [q5, setQ5] = useState('')
   const [klaviyoId, setKlaviyoId] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -57,20 +41,25 @@ export default function WardrobePage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const rawId = params.get('id')
-    // "None" is what Klaviyo's {{ person.id }} resolves to when unset — treat as absent
+    // "None" is what Klaviyo's {{ person.id }} resolves to when unset
     setKlaviyoId(rawId && rawId !== 'None' ? rawId : null)
     setName(sanitiseName(params.get('name')))
   }, [])
 
-  function pick(key: keyof Answers, value: string) {
-    setAnswers(prev => ({ ...prev, [key]: value }))
-  }
+  // Changing Q1 invalidates Q4 (the question text changes)
+  useEffect(() => { setQ4(null) }, [q1])
+  // Switching Q2 away from Yes/Maybe clears Q2b
+  useEffect(() => { if (q2 !== 'Yes' && q2 !== 'Maybe') setQ2b(null) }, [q2])
 
-  const answeredCount = QUESTIONS.filter(q => answers[q.key]).length
-  const allAnswered = answeredCount === 4
+  const showQ2b = q2 === 'Yes' || q2 === 'Maybe'
+  const q4Locked = !q1
+  const canSubmit = Boolean(q1 && q2 && q3 && q4 && (!showQ2b || q2b))
+
+  const answeredCount = [q1, q2, showQ2b ? q2b : true, q3, q4].filter(Boolean).length
+  const totalRequired = showQ2b ? 5 : 4
 
   async function handleSubmit() {
-    if (!allAnswered || submitting) return
+    if (!canSubmit || submitting) return
     setSubmitting(true)
     setError(null)
     try {
@@ -79,10 +68,13 @@ export default function WardrobePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           klaviyo_id: klaviyoId,
-          q1_count: answers.q1_count,
-          q2_cases: answers.q2_cases,
-          q3_subscription: answers.q3_subscription,
-          q4_refill_frequency: answers.q4_refill_frequency,
+          q1_starter: q1,
+          q2_subscription: q2,
+          q2b_benefit: q2b ?? null,
+          q3_cadence: q3,
+          q4_price_reaction: q4,
+          q4_bundle_shown: q1 === 'Case + 2 scents' ? 'case-2' : 'case-3',
+          q5_text: q5.trim() || null,
           ts: Date.now(),
         }),
       })
@@ -111,38 +103,101 @@ export default function WardrobePage() {
         <>
           <section className="vote-hero">
             {name && <p className="vote-hero-eyebrow">{name}, your turn.</p>}
-            <h1 className="vote-hero-hed">Four questions.</h1>
-            <p className="vote-intro">We want to build WAER around how you actually use fragrance. Takes about a minute.</p>
+            <h1 className="vote-hero-hed">A few questions.</h1>
+            <p className="vote-intro">Help us build WAER around how fragrance actually fits into your life.</p>
           </section>
 
           <div className="wardrobe-questions">
-            {QUESTIONS.map(q => (
-              <section key={q.key} className="wardrobe-question">
-                <p className="wardrobe-question-setup">{q.setup}</p>
-                <h2 className="wardrobe-question-hed">{q.question}</h2>
+
+            {/* Q1 */}
+            <section className="wardrobe-question">
+              <p className="wardrobe-question-setup">Everyone started their DIEM wardrobe somewhere. We&rsquo;re choosing what WAER&rsquo;s first step looks like.</p>
+              <h2 className="wardrobe-question-hed">Your ideal starter wardrobe?</h2>
+              <div className="wardrobe-answers">
+                {Q1_ANSWERS.map(a => (
+                  <button key={a} className={`wardrobe-answer${q1 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ1(a)}>{a}</button>
+                ))}
+              </div>
+            </section>
+
+            {/* Q2 */}
+            <section className="wardrobe-question">
+              <p className="wardrobe-question-setup">The subscription was what made DIEM effortless. We&rsquo;re deciding how WAER&rsquo;s should work.</p>
+              <h2 className="wardrobe-question-hed">Would a subscription interest you?</h2>
+              <div className="wardrobe-answers">
+                {Q2_ANSWERS.map(a => (
+                  <button key={a} className={`wardrobe-answer${q2 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ2(a)}>{a}</button>
+                ))}
+              </div>
+            </section>
+
+            {/* Q2b – conditional follow-up */}
+            {showQ2b && (
+              <section className="wardrobe-question wardrobe-question--follow-up">
+                <p className="wardrobe-question-setup">Good to know. So we build the right one:</p>
+                <h2 className="wardrobe-question-hed">What would make it worth it?</h2>
                 <div className="wardrobe-answers">
-                  {q.answers.map(a => (
-                    <button
-                      key={a}
-                      className={`wardrobe-answer${answers[q.key] === a ? ' wardrobe-answer--selected' : ''}`}
-                      onClick={() => pick(q.key, a)}
-                    >
-                      {a}
-                    </button>
+                  {Q2B_ANSWERS.map(a => (
+                    <button key={a} className={`wardrobe-answer${q2b === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ2b(a)}>{a}</button>
                   ))}
                 </div>
               </section>
-            ))}
+            )}
+
+            {/* Q3 */}
+            <section className="wardrobe-question">
+              <p className="wardrobe-question-setup">With DIEM, refills arrived at your pace. We&rsquo;re setting WAER&rsquo;s rhythm.</p>
+              <h2 className="wardrobe-question-hed">If you subscribed, how often would suit?</h2>
+              <div className="wardrobe-answers">
+                {Q3_ANSWERS.map(a => (
+                  <button key={a} className={`wardrobe-answer${q3 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ3(a)}>{a}</button>
+                ))}
+              </div>
+            </section>
+
+            {/* Q4 – locked until Q1 answered */}
+            <section className={`wardrobe-question${q4Locked ? ' wardrobe-question--locked' : ''}`}>
+              <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
+              <h2 className="wardrobe-question-hed">
+                {q1 ? q4Text(q1) : 'Choose your starter wardrobe above to unlock this.'}
+              </h2>
+              <div className="wardrobe-answers">
+                {Q4_ANSWERS.map(a => (
+                  <button
+                    key={a}
+                    className={`wardrobe-answer${q4 === a ? ' wardrobe-answer--selected' : ''}`}
+                    onClick={() => { if (!q4Locked) setQ4(a) }}
+                    disabled={q4Locked}
+                    aria-disabled={q4Locked}
+                  >{a}</button>
+                ))}
+              </div>
+            </section>
+
+            {/* Q5 – optional free text */}
+            <section className="wardrobe-question">
+              <p className="wardrobe-question-setup">Here&rsquo;s something we found: 85% of the people we spoke to said they don&rsquo;t actually enjoy buying fragrance. We&rsquo;re building WAER to change that.</p>
+              <h2 className="wardrobe-question-hed">So tell us, what&rsquo;s the one thing WAER should get right?</h2>
+              <div className="wardrobe-freetext">
+                <textarea
+                  className="vote-feedback-input"
+                  placeholder="Optional"
+                  rows={3}
+                  maxLength={500}
+                  value={q5}
+                  onChange={e => setQ5(e.target.value)}
+                  disabled={submitting}
+                />
+                <p className="wardrobe-freetext-hint">A sentence is plenty. No wrong answers.</p>
+              </div>
+            </section>
+
           </div>
 
           <div className="vote-bar">
-            <span className="vote-bar-count">{answeredCount} / 4 answered</span>
+            <span className="vote-bar-count">{answeredCount} / {totalRequired} answered</span>
             {error && <span className="form-error" style={{ margin: 0 }}>{error}</span>}
-            <button
-              className="vote-submit"
-              disabled={!allAnswered || submitting}
-              onClick={handleSubmit}
-            >
+            <button className="vote-submit" disabled={!canSubmit || submitting} onClick={handleSubmit}>
               {submitting ? 'Submitting…' : 'Submit →'}
             </button>
           </div>

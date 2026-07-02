@@ -1,28 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSupabase } from '@/lib/supabase'
-import { fireWardrobeSurveyEvent, subscribeProfileById } from '@/lib/klaviyo'
+import { fireKlaviyoEventById, subscribeProfileById } from '@/lib/klaviyo'
 
 export async function POST(req: NextRequest) {
   try {
-    const { klaviyo_id, q1_count, q2_cases, q3_subscription, q4_refill_frequency, ts } = await req.json() as {
+    const {
+      klaviyo_id,
+      q1_starter,
+      q2_subscription,
+      q2b_benefit,
+      q3_cadence,
+      q4_price_reaction,
+      q4_bundle_shown,
+      q5_text,
+      ts,
+    } = await req.json() as {
       klaviyo_id?: string | null
-      q1_count?: string
-      q2_cases?: string
-      q3_subscription?: string
-      q4_refill_frequency?: string
+      q1_starter?: string
+      q2_subscription?: string
+      q2b_benefit?: string | null
+      q3_cadence?: string
+      q4_price_reaction?: string
+      q4_bundle_shown?: string
+      q5_text?: string | null
       ts?: number
     }
 
-    if (!q1_count || !q2_cases || !q3_subscription || !q4_refill_frequency) {
-      return NextResponse.json({ ok: false, error: 'All four questions required.' }, { status: 400 })
+    if (!q1_starter || !q2_subscription || !q3_cadence || !q4_price_reaction) {
+      return NextResponse.json({ ok: false, error: 'Please answer all required questions.' }, { status: 400 })
     }
 
-    const { error } = await getSupabase().from('wardrobe_responses').insert({
+    const { error } = await getSupabase().from('wardrobe_responses_v2').insert({
       klaviyo_id: klaviyo_id ?? 'Unknown',
-      q1_count,
-      q2_cases,
-      q3_subscription,
-      q4_refill_frequency,
+      q1_starter,
+      q2_subscription,
+      q2b_benefit: q2b_benefit ?? null,
+      q3_cadence,
+      q4_price_reaction,
+      q4_bundle_shown: q4_bundle_shown ?? null,
+      q5_text: q5_text ?? null,
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 
@@ -33,7 +49,13 @@ export async function POST(req: NextRequest) {
 
     if (klaviyo_id) {
       await Promise.allSettled([
-        fireWardrobeSurveyEvent(klaviyo_id, { q1_count, q2_cases, q3_subscription, q4_refill_frequency }),
+        fireKlaviyoEventById(klaviyo_id, 'Answered Wardrobe Survey', {
+          q1_starter,
+          q2_subscription,
+          q2b_benefit: q2b_benefit ?? null,
+          q3_cadence,
+          q4_price_reaction,
+        }),
         subscribeProfileById(klaviyo_id),
       ])
     }
