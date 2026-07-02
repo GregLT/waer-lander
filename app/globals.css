@@ -634,6 +634,39 @@ footer {
   max-width: 40ch;
   margin: 0;
 }
+.wardrobe-thanks-ctas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-s);
+  margin-top: var(--space-l);
+}
+.wardrobe-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 28px;
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.wardrobe-cta-primary:hover { background: rgba(0,0,0,0.8); transform: translateY(-1px); }
+.wardrobe-cta-secondary {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--color-text-40);
+  text-decoration: none;
+}
+.wardrobe-cta-secondary:hover { color: var(--color-text); }
 
 @media (max-width: 900px) {
   .vote-header { padding: 18px 24px; }

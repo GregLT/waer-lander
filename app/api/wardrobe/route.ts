@@ -8,29 +8,28 @@ export async function POST(req: NextRequest) {
       email,
       q1_starter,
       q2_subscription,
-      q2b_benefit,
       q3_cadence,
+      q3_buy_timing,
       q4_price_reaction,
       q4_bundle_shown,
-      q5_text,
+      q5_purchase_intent,
       ts,
     } = await req.json() as {
       email?: string | null
       q1_starter?: string
       q2_subscription?: string
-      q2b_benefit?: string | null
-      q3_cadence?: string
+      q3_cadence?: string | null
+      q3_buy_timing?: string | null
       q4_price_reaction?: string | null
       q4_bundle_shown?: string
-      q5_text?: string | null
+      q5_purchase_intent?: string | null
       ts?: number
     }
 
-    if (!q1_starter || !q2_subscription || !q3_cadence) {
+    if (!q1_starter || !q2_subscription || (!q3_cadence && !q3_buy_timing) || !q5_purchase_intent) {
       return NextResponse.json({ ok: false, error: 'Please answer all required questions.' }, { status: 400 })
     }
 
-    // Fetch customer_demographic from Klaviyo before writing — never throws
     const customer_demographic = email
       ? await fetchProfileDemographicByEmail(email)
       : 'Unknown'
@@ -40,11 +39,11 @@ export async function POST(req: NextRequest) {
       customer_demographic,
       q1_starter,
       q2_subscription,
-      q2b_benefit: q2b_benefit ?? null,
-      q3_cadence,
+      q3_cadence: q3_cadence ?? null,
+      q3_buy_timing: q3_buy_timing ?? null,
       q4_price_reaction: q4_price_reaction ?? null,
       q4_bundle_shown: q4_bundle_shown ?? null,
-      q5_text: q5_text ?? null,
+      q5_purchase_intent: q5_purchase_intent ?? null,
       submitted_at: ts ? new Date(ts).toISOString() : new Date().toISOString(),
     })
 
@@ -58,9 +57,10 @@ export async function POST(req: NextRequest) {
         fireKlaviyoEventByEmail(email, 'Answered Wardrobe Survey', {
           q1_starter,
           q2_subscription,
-          q2b_benefit: q2b_benefit ?? null,
-          q3_cadence,
+          q3_cadence: q3_cadence ?? null,
+          q3_buy_timing: q3_buy_timing ?? null,
           q4_price_reaction: q4_price_reaction ?? null,
+          q5_purchase_intent: q5_purchase_intent ?? null,
         }),
         subscribeToKlaviyo(email),
       ])
