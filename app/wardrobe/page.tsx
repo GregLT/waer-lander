@@ -10,10 +10,10 @@ const Q3_BUY = ['When I run out', 'When a new scent drops', 'Seasonally', 'As a 
 const Q4_ANSWERS = ['Great value', 'About right', 'A bit much', 'Too expensive'] as const
 const Q5_ANSWERS = ['Yes, definitely', 'Probably', 'Not sure yet', 'Not for me'] as const
 
-const PRICES: Record<string, { sub: string; full: string }> = {
-  'Case + 1 Fragrance': { sub: '£20', full: '£25' },
-  'Case + 2 Fragrances': { sub: '£35', full: '£42' },
-  'Case + 3 Fragrances': { sub: '£42', full: '£50' },
+const PRICES: Record<string, { sub: string; full: string; usage: string }> = {
+  'Case + 1 Fragrance': { sub: '£20', full: '£25', usage: '30 days usage' },
+  'Case + 2 Fragrances': { sub: '£35', full: '£42', usage: '60 days usage' },
+  'Case + 3 Fragrances': { sub: '£42', full: '£50', usage: '90 days usage' },
 }
 
 function sanitiseName(raw: string | null): string | null {
@@ -170,7 +170,7 @@ export default function WardrobePage() {
             {q1 && (
               <section className="wardrobe-question">
                 <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
-                <h2 className="wardrobe-question-hed">{`How does ${PRICES[q1].sub} for ${q1} feel on subscription?`}</h2>
+                <h2 className="wardrobe-question-hed">{`How does ${PRICES[q1].sub} for ${q1} feel on subscription? (${PRICES[q1].usage})`}</h2>
                 <p className="wardrobe-question-setup">{`Or ${PRICES[q1].full} as a one-off purchase.`}</p>
                 <div className="wardrobe-answers">
                   {Q4_ANSWERS.map(a => (
