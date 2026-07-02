@@ -937,6 +937,41 @@ footer {
   margin: var(--space-s) 0 0;
 }
 
+/* Version tabs on results page */
+.results-version-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 var(--space-l) var(--space-m);
+  max-width: 640px;
+}
+
+.results-version-tab {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 6px 14px;
+  background: transparent;
+  color: var(--color-text-40);
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s;
+}
+
+.results-version-tab:hover {
+  border-color: var(--color-text-40);
+  color: var(--color-text);
+}
+
+.results-version-tab--active {
+  border-color: var(--color-text);
+  color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
 @media (max-width: 900px) {
   .wardrobe-questions { padding: 0 var(--space-base) var(--space-xl); }
   .wardrobe-question { padding: var(--space-m) 0; }

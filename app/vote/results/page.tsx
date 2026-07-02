@@ -22,8 +22,10 @@ type WardrobeRow = {
   q3_cadence: string | null
   q3_buy_timing: string | null
   q4_price_reaction: string | null
+  q4_preferred_price: string | null
   q4_bundle_shown: string | null
   q5_purchase_intent: string | null
+  survey_version: string | null
   customer_demographic: string | null
 }
 
@@ -32,6 +34,12 @@ const BUNDLE_LABELS: Record<string, string> = {
   'case-2': 'Case + 2 Fragrances — £35 sub / £42 one-off',
   'case-3': 'Case + 3 Fragrances — £42 sub / £50 one-off',
 }
+
+const VERSION_TABS = [
+  { key: 'all', label: 'All responses' },
+  { key: 'v2', label: 'v2 — current pricing' },
+  { key: 'v1-price-unclear', label: 'v1 — old pricing' },
+]
 
 function toCounts(rows: VoteRow[]): Record<string, number> {
   const counts: Record<string, number> = {}
@@ -79,10 +87,51 @@ function QuestionBreakdown({ label, counts, total }: { label: string; counts: Re
   )
 }
 
+function PreferredPrices({ rows }: { rows: WardrobeRow[] }) {
+  const byBundle = useMemo(() => {
+    const result: Record<string, string[]> = {}
+    for (const row of rows) {
+      if (!row.q4_preferred_price?.trim() || !row.q4_bundle_shown) continue
+      if (!result[row.q4_bundle_shown]) result[row.q4_bundle_shown] = []
+      result[row.q4_bundle_shown].push(row.q4_preferred_price.trim())
+    }
+    return result
+  }, [rows])
+
+  const bundles = ['case-1', 'case-2', 'case-3'].filter(b => byBundle[b]?.length)
+  if (!bundles.length) return null
+
+  return (
+    <div className="wardrobe-q-block">
+      <p className="wardrobe-q-label">What price would they pay?</p>
+      {bundles.map(bundle => (
+        <div key={bundle} style={{ marginBottom: 'var(--space-s)' }}>
+          <p style={{ fontSize: 'var(--type-xs)', color: 'var(--color-text-40)', margin: '0 0 4px', fontFamily: 'var(--font-display)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            {BUNDLE_LABELS[bundle]}
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+            {byBundle[bundle].map((price, i) => (
+              <span key={i} style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--type-s)',
+                border: '1px solid var(--rule)',
+                borderRadius: 4,
+                padding: '2px 10px',
+                color: 'var(--color-text)',
+              }}>{price}</span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function ResultsPage() {
   const [allVotes, setAllVotes] = useState<VoteRow[]>([])
   const [allWardrobe, setAllWardrobe] = useState<WardrobeRow[]>([])
   const [filter, setFilter] = useState('All')
+  const [versionTab, setVersionTab] = useState('all')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -91,7 +140,7 @@ export default function ResultsPage() {
     async function fetchAll() {
       const [votesRes, wardrobeRes] = await Promise.all([
         sb.from('votes').select('choice_1, choice_2, choice_3, demographic'),
-        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q3_cadence, q3_buy_timing, q4_price_reaction, q4_bundle_shown, q5_purchase_intent, customer_demographic'),
+        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q3_cadence, q3_buy_timing, q4_price_reaction, q4_preferred_price, q4_bundle_shown, q5_purchase_intent, survey_version, customer_demographic'),
       ])
       if (votesRes.data) setAllVotes(votesRes.data as VoteRow[])
       if (wardrobeRes.data) setAllWardrobe(wardrobeRes.data as WardrobeRow[])
@@ -133,10 +182,11 @@ export default function ResultsPage() {
     [allVotes, filter]
   )
 
-  const filteredWardrobe = useMemo(() =>
-    filter === 'All' ? allWardrobe : allWardrobe.filter(w => (w.customer_demographic ?? 'Unknown') === filter),
-    [allWardrobe, filter]
-  )
+  const filteredWardrobe = useMemo(() => {
+    let rows = filter === 'All' ? allWardrobe : allWardrobe.filter(w => (w.customer_demographic ?? 'Unknown') === filter)
+    if (versionTab !== 'all') rows = rows.filter(w => (w.survey_version ?? 'v1-price-unclear') === versionTab)
+    return rows
+  }, [allWardrobe, filter, versionTab])
 
   const counts = useMemo(() => toCounts(filteredVotes), [filteredVotes])
   const voteTotal = filteredVotes.length
@@ -153,7 +203,6 @@ export default function ResultsPage() {
   const q3bCounts = useMemo(() => countField(filteredWardrobe, 'q3_buy_timing'), [filteredWardrobe])
   const q5Counts = useMemo(() => countField(filteredWardrobe, 'q5_purchase_intent'), [filteredWardrobe])
 
-  // Q4 split by which bundle/price was shown
   const q4ByBundle = useMemo(() => {
     const result: Record<string, Record<string, number>> = {}
     for (const row of filteredWardrobe) {
@@ -229,6 +278,17 @@ export default function ResultsPage() {
         <p className="results-total">{loading ? '—' : wTotal} {wTotal === 1 ? 'response' : 'responses'} in view</p>
       </section>
 
+      {/* Version tabs */}
+      <div className="results-version-tabs">
+        {VERSION_TABS.map(t => (
+          <button
+            key={t.key}
+            className={`results-version-tab${versionTab === t.key ? ' results-version-tab--active' : ''}`}
+            onClick={() => setVersionTab(t.key)}
+          >{t.label}</button>
+        ))}
+      </div>
+
       <div className="results-list" style={{ display: 'block' }}>
         {wTotal === 0 && !loading ? (
           <p style={{ color: 'var(--color-text-40)', fontSize: 'var(--type-s)' }}>No responses yet.</p>
@@ -243,11 +303,12 @@ export default function ResultsPage() {
               <QuestionBreakdown label="How they'd buy refills (non-subscribers)" counts={q3bCounts} total={Object.values(q3bCounts).reduce((a, b) => a + b, 0)} />
             )}
             {['case-1', 'case-2', 'case-3'].map(bundle => {
-              const counts = q4ByBundle[bundle]
-              if (!counts || !Object.keys(counts).length) return null
-              const total = Object.values(counts).reduce((a, b) => a + b, 0)
-              return <QuestionBreakdown key={bundle} label={`Price reaction — ${BUNDLE_LABELS[bundle]}`} counts={counts} total={total} />
+              const bundleCounts = q4ByBundle[bundle]
+              if (!bundleCounts || !Object.keys(bundleCounts).length) return null
+              const total = Object.values(bundleCounts).reduce((a, b) => a + b, 0)
+              return <QuestionBreakdown key={bundle} label={`Price reaction — ${BUNDLE_LABELS[bundle]}`} counts={bundleCounts} total={total} />
             })}
+            <PreferredPrices rows={filteredWardrobe} />
             {Object.keys(q5Counts).length > 0 && (
               <QuestionBreakdown label="Would buy at launch" counts={q5Counts} total={Object.values(q5Counts).reduce((a, b) => a + b, 0)} />
             )}
