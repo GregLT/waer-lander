@@ -786,6 +786,18 @@ footer {
   text-transform: uppercase;
   margin: 0;
 }
+.wardrobe-q-block {
+  margin-bottom: var(--space-l);
+}
+.wardrobe-q-label {
+  font-family: var(--font-display, sans-serif);
+  font-size: var(--type-s);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-s);
+  color: var(--color-text-40);
+}
 @media (max-width: 600px) {
   .results-hero { padding: var(--space-base); }
   .results-list { padding: 0 var(--space-base) var(--space-xl); }
