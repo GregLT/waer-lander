@@ -162,26 +162,22 @@ export default function WardrobePage() {
               </section>
             )}
 
-            {/* Q4 – price reaction, locked until Q1 answered */}
-            <section className={`wardrobe-question${q4Locked ? ' wardrobe-question--locked' : ''}`}>
-              {!q4Locked && <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>}
-              <h2 className="wardrobe-question-hed">
-                {q1
-                  ? `How does ${PRICES[q1]} for ${q1} feel?`
-                  : 'Choose your starter set above to unlock pricing.'}
-              </h2>
-              <div className="wardrobe-answers">
-                {Q4_ANSWERS.map(a => (
-                  <button
-                    key={a}
-                    className={`wardrobe-answer${q4 === a ? ' wardrobe-answer--selected' : ''}`}
-                    onClick={() => { if (!q4Locked) setQ4(a) }}
-                    disabled={q4Locked}
-                    aria-disabled={q4Locked}
-                  >{a}</button>
-                ))}
-              </div>
-            </section>
+            {/* Q4 – price reaction, hidden until Q1 answered */}
+            {q1 && (
+              <section className="wardrobe-question">
+                <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
+                <h2 className="wardrobe-question-hed">{`How does ${PRICES[q1]} for ${q1} feel?`}</h2>
+                <div className="wardrobe-answers">
+                  {Q4_ANSWERS.map(a => (
+                    <button
+                      key={a}
+                      className={`wardrobe-answer${q4 === a ? ' wardrobe-answer--selected' : ''}`}
+                      onClick={() => setQ4(a)}
+                    >{a}</button>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Q5 – purchase intent */}
             <section className="wardrobe-question">
