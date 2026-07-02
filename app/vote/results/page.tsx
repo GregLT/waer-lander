@@ -210,14 +210,20 @@ export default function ResultsPage() {
       </section>
 
       <div className="results-list" style={{ display: 'block' }}>
-        <QuestionBreakdown label="Starter wardrobe" counts={q1Counts} total={wTotal} />
-        <QuestionBreakdown label="Subscription interest" counts={q2Counts} total={wTotal} />
-        {Object.keys(q2bCounts).length > 0 && (
-          <QuestionBreakdown label="What would make it worth it?" counts={q2bCounts} total={Object.values(q2bCounts).reduce((a, b) => a + b, 0)} />
-        )}
-        <QuestionBreakdown label="Refill cadence" counts={q3Counts} total={wTotal} />
-        {Object.keys(q4Counts).length > 0 && (
-          <QuestionBreakdown label="Price reaction" counts={q4Counts} total={Object.values(q4Counts).reduce((a, b) => a + b, 0)} />
+        {wTotal === 0 && !loading ? (
+          <p style={{ color: 'var(--color-text-40)', fontSize: 'var(--type-s)' }}>No responses yet.</p>
+        ) : (
+          <>
+            <QuestionBreakdown label="Starter wardrobe" counts={q1Counts} total={wTotal} />
+            <QuestionBreakdown label="Subscription interest" counts={q2Counts} total={wTotal} />
+            {Object.keys(q2bCounts).length > 0 && (
+              <QuestionBreakdown label="What would make it worth it?" counts={q2bCounts} total={Object.values(q2bCounts).reduce((a, b) => a + b, 0)} />
+            )}
+            <QuestionBreakdown label="Refill cadence" counts={q3Counts} total={wTotal} />
+            {Object.keys(q4Counts).length > 0 && (
+              <QuestionBreakdown label="Price reaction" counts={q4Counts} total={Object.values(q4Counts).reduce((a, b) => a + b, 0)} />
+            )}
+          </>
         )}
       </div>
 
