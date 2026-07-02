@@ -934,7 +934,7 @@ footer {
   font-size: var(--type-xs);
   letter-spacing: 0.03em;
   color: var(--color-text-40);
-  margin: 0;
+  margin: var(--space-s) 0 0;
 }
 
 @media (max-width: 900px) {
