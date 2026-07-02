@@ -22,7 +22,14 @@ type WardrobeRow = {
   q2b_benefit: string | null
   q3_cadence: string | null
   q4_price_reaction: string | null
+  q4_bundle_shown: string | null
   customer_demographic: string | null
+}
+
+const BUNDLE_LABELS: Record<string, string> = {
+  'case-1': 'Case + 1 x 10ml — £30 / £24 on subscription',
+  'case-2': 'Case + 2 x 10ml — £45 / £36 on subscription',
+  'case-3': 'Case + 3 x 10ml — £60 / £50 on subscription',
 }
 
 function toCounts(rows: VoteRow[]): Record<string, number> {
@@ -83,7 +90,7 @@ export default function ResultsPage() {
     async function fetchAll() {
       const [votesRes, wardrobeRes] = await Promise.all([
         sb.from('votes').select('choice_1, choice_2, choice_3, demographic'),
-        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q2b_benefit, q3_cadence, q4_price_reaction, customer_demographic'),
+        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q2b_benefit, q3_cadence, q4_price_reaction, q4_bundle_shown, customer_demographic'),
       ])
       if (votesRes.data) setAllVotes(votesRes.data as VoteRow[])
       if (wardrobeRes.data) setAllWardrobe(wardrobeRes.data as WardrobeRow[])
@@ -143,7 +150,18 @@ export default function ResultsPage() {
   const q2Counts = useMemo(() => countField(filteredWardrobe, 'q2_subscription'), [filteredWardrobe])
   const q2bCounts = useMemo(() => countField(filteredWardrobe, 'q2b_benefit'), [filteredWardrobe])
   const q3Counts = useMemo(() => countField(filteredWardrobe, 'q3_cadence'), [filteredWardrobe])
-  const q4Counts = useMemo(() => countField(filteredWardrobe, 'q4_price_reaction'), [filteredWardrobe])
+
+  // Q4 split by which bundle/price was shown
+  const q4ByBundle = useMemo(() => {
+    const result: Record<string, Record<string, number>> = {}
+    for (const row of filteredWardrobe) {
+      if (!row.q4_price_reaction || !row.q4_bundle_shown) continue
+      if (!result[row.q4_bundle_shown]) result[row.q4_bundle_shown] = {}
+      const r = result[row.q4_bundle_shown]
+      r[row.q4_price_reaction] = (r[row.q4_price_reaction] ?? 0) + 1
+    }
+    return result
+  }, [filteredWardrobe])
 
   return (
     <div className="results-page">
@@ -220,9 +238,12 @@ export default function ResultsPage() {
               <QuestionBreakdown label="What would make it worth it?" counts={q2bCounts} total={Object.values(q2bCounts).reduce((a, b) => a + b, 0)} />
             )}
             <QuestionBreakdown label="Refill cadence" counts={q3Counts} total={wTotal} />
-            {Object.keys(q4Counts).length > 0 && (
-              <QuestionBreakdown label="Price reaction" counts={q4Counts} total={Object.values(q4Counts).reduce((a, b) => a + b, 0)} />
-            )}
+            {['case-1', 'case-2', 'case-3'].map(bundle => {
+              const counts = q4ByBundle[bundle]
+              if (!counts || !Object.keys(counts).length) return null
+              const total = Object.values(counts).reduce((a, b) => a + b, 0)
+              return <QuestionBreakdown key={bundle} label={`Price reaction — ${BUNDLE_LABELS[bundle]}`} counts={counts} total={total} />
+            })}
           </>
         )}
       </div>
