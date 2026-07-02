@@ -19,17 +19,18 @@ type VoteRow = { choice_1: string; choice_2: string; choice_3: string; demograph
 type WardrobeRow = {
   q1_starter: string | null
   q2_subscription: string | null
-  q2b_benefit: string | null
   q3_cadence: string | null
+  q3_buy_timing: string | null
   q4_price_reaction: string | null
   q4_bundle_shown: string | null
+  q5_purchase_intent: string | null
   customer_demographic: string | null
 }
 
 const BUNDLE_LABELS: Record<string, string> = {
-  'case-1': 'Case + 1 x 10ml — £30 / £24 on subscription',
-  'case-2': 'Case + 2 x 10ml — £45 / £36 on subscription',
-  'case-3': 'Case + 3 x 10ml — £60 / £50 on subscription',
+  'case-1': 'Case + 1 Fragrance — £35',
+  'case-2': 'Case + 2 Fragrances — £40',
+  'case-3': 'Case + 3 Fragrances — £45',
 }
 
 function toCounts(rows: VoteRow[]): Record<string, number> {
@@ -90,7 +91,7 @@ export default function ResultsPage() {
     async function fetchAll() {
       const [votesRes, wardrobeRes] = await Promise.all([
         sb.from('votes').select('choice_1, choice_2, choice_3, demographic'),
-        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q2b_benefit, q3_cadence, q4_price_reaction, q4_bundle_shown, customer_demographic'),
+        sb.from('wardrobe_responses_v2').select('q1_starter, q2_subscription, q3_cadence, q3_buy_timing, q4_price_reaction, q4_bundle_shown, q5_purchase_intent, customer_demographic'),
       ])
       if (votesRes.data) setAllVotes(votesRes.data as VoteRow[])
       if (wardrobeRes.data) setAllWardrobe(wardrobeRes.data as WardrobeRow[])
@@ -148,8 +149,9 @@ export default function ResultsPage() {
   const wTotal = filteredWardrobe.length
   const q1Counts = useMemo(() => countField(filteredWardrobe, 'q1_starter'), [filteredWardrobe])
   const q2Counts = useMemo(() => countField(filteredWardrobe, 'q2_subscription'), [filteredWardrobe])
-  const q2bCounts = useMemo(() => countField(filteredWardrobe, 'q2b_benefit'), [filteredWardrobe])
   const q3Counts = useMemo(() => countField(filteredWardrobe, 'q3_cadence'), [filteredWardrobe])
+  const q3bCounts = useMemo(() => countField(filteredWardrobe, 'q3_buy_timing'), [filteredWardrobe])
+  const q5Counts = useMemo(() => countField(filteredWardrobe, 'q5_purchase_intent'), [filteredWardrobe])
 
   // Q4 split by which bundle/price was shown
   const q4ByBundle = useMemo(() => {
@@ -232,18 +234,23 @@ export default function ResultsPage() {
           <p style={{ color: 'var(--color-text-40)', fontSize: 'var(--type-s)' }}>No responses yet.</p>
         ) : (
           <>
-            <QuestionBreakdown label="Starter wardrobe" counts={q1Counts} total={wTotal} />
-            <QuestionBreakdown label="Subscription interest" counts={q2Counts} total={wTotal} />
-            {Object.keys(q2bCounts).length > 0 && (
-              <QuestionBreakdown label="What would make it worth it?" counts={q2bCounts} total={Object.values(q2bCounts).reduce((a, b) => a + b, 0)} />
+            <QuestionBreakdown label="Starter set" counts={q1Counts} total={wTotal} />
+            <QuestionBreakdown label="Automatic refills" counts={q2Counts} total={wTotal} />
+            {Object.keys(q3Counts).length > 0 && (
+              <QuestionBreakdown label="Refill cadence (subscribers)" counts={q3Counts} total={Object.values(q3Counts).reduce((a, b) => a + b, 0)} />
             )}
-            <QuestionBreakdown label="Refill cadence" counts={q3Counts} total={wTotal} />
+            {Object.keys(q3bCounts).length > 0 && (
+              <QuestionBreakdown label="How they'd buy refills (non-subscribers)" counts={q3bCounts} total={Object.values(q3bCounts).reduce((a, b) => a + b, 0)} />
+            )}
             {['case-1', 'case-2', 'case-3'].map(bundle => {
               const counts = q4ByBundle[bundle]
               if (!counts || !Object.keys(counts).length) return null
               const total = Object.values(counts).reduce((a, b) => a + b, 0)
               return <QuestionBreakdown key={bundle} label={`Price reaction — ${BUNDLE_LABELS[bundle]}`} counts={counts} total={total} />
             })}
+            {Object.keys(q5Counts).length > 0 && (
+              <QuestionBreakdown label="Would buy at launch" counts={q5Counts} total={Object.values(q5Counts).reduce((a, b) => a + b, 0)} />
+            )}
           </>
         )}
       </div>
