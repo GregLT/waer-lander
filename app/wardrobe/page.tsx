@@ -13,7 +13,7 @@ const Q5_ANSWERS = ['Yes, definitely', 'Probably', 'Not sure yet', 'Not for me']
 const PRICES: Record<string, { sub: string; full: string }> = {
   'Case + 1 Fragrance': { sub: '£20', full: '£25' },
   'Case + 2 Fragrances': { sub: '£35', full: '£42' },
-  'Case + 3 Fragrances': { sub: '£40', full: '£50' },
+  'Case + 3 Fragrances': { sub: '£42', full: '£50' },
 }
 
 function sanitiseName(raw: string | null): string | null {
