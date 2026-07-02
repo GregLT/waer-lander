@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
-const Q1_ANSWERS = ['Case + 2 scents', 'Case + 3 scents'] as const
+const Q1_ANSWERS = ['Case + 1 scent', 'Case + 2 scents', 'Case + 3 scents'] as const
 const Q2_ANSWERS = ['Yes', 'Maybe', 'Not for me'] as const
 const Q2B_ANSWERS = ['Exclusive scents', 'Free delivery', 'A discount on orders', 'Never running out'] as const
 const Q3_ANSWERS = ['Monthly', 'Every 2 months', 'Quarterly'] as const
@@ -52,11 +52,15 @@ export default function WardrobeV2Page() {
   useEffect(() => { if (q2 !== 'Yes' && q2 !== 'Maybe') setQ2b(null) }, [q2])
 
   const showQ2b = q2 === 'Yes' || q2 === 'Maybe'
+  const showQ4 = q1 !== null && q1 !== 'Case + 1 scent'
   const q4Locked = !q1
-  const canSubmit = Boolean(q1 && q2 && q3 && q4 && (!showQ2b || q2b))
 
-  let answeredCount = [q1, q2, showQ2b ? q2b : true, q3, q4].filter(Boolean).length
-  const totalRequired = showQ2b ? 5 : 4
+  let answeredCount = [q1, q2, q3].filter(Boolean).length
+  let totalRequired = 3
+  if (showQ2b) { totalRequired++; if (q2b) answeredCount++ }
+  if (showQ4)  { totalRequired++; if (q4)  answeredCount++ }
+
+  const canSubmit = answeredCount === totalRequired
 
   async function handleSubmit() {
     if (!canSubmit || submitting) return
@@ -73,7 +77,7 @@ export default function WardrobeV2Page() {
           q2b_benefit: q2b ?? null,
           q3_cadence: q3,
           q4_price_reaction: q4,
-          q4_bundle_shown: q1 === 'Case + 2 scents' ? 'case-2' : 'case-3',
+          q4_bundle_shown: q1 === 'Case + 2 scents' ? 'case-2' : q1 === 'Case + 3 scents' ? 'case-3' : 'case-1',
           q5_text: q5.trim() || null,
           ts: Date.now(),
         }),
@@ -147,7 +151,7 @@ export default function WardrobeV2Page() {
             {/* Q3 */}
             <section className="wardrobe-question">
               <p className="wardrobe-question-setup">With DIEM, refills arrived at your pace. We&rsquo;re setting WAER&rsquo;s rhythm.</p>
-              <h2 className="wardrobe-question-hed">If you subscribed, how often would suit?</h2>
+              <h2 className="wardrobe-question-hed">With a subscription, how often would you like refills sent?</h2>
               <div className="wardrobe-answers">
                 {Q3_ANSWERS.map(a => (
                   <button key={a} className={`wardrobe-answer${q3 === a ? ' wardrobe-answer--selected' : ''}`} onClick={() => setQ3(a)}>{a}</button>
@@ -155,24 +159,26 @@ export default function WardrobeV2Page() {
               </div>
             </section>
 
-            {/* Q4 – locked until Q1 answered */}
-            <section className={`wardrobe-question${q4Locked ? ' wardrobe-question--locked' : ''}`}>
-              <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
-              <h2 className="wardrobe-question-hed">
-                {q1 ? q4Text(q1) : 'Choose your starter wardrobe above to unlock this.'}
-              </h2>
-              <div className="wardrobe-answers">
-                {Q4_ANSWERS.map(a => (
-                  <button
-                    key={a}
-                    className={`wardrobe-answer${q4 === a ? ' wardrobe-answer--selected' : ''}`}
-                    onClick={() => { if (!q4Locked) setQ4(a) }}
-                    disabled={q4Locked}
-                    aria-disabled={q4Locked}
-                  >{a}</button>
-                ))}
-              </div>
-            </section>
+            {/* Q4 – price reaction, only for 2- and 3-scent bundles */}
+            {q1 !== 'Case + 1 scent' && (
+              <section className={`wardrobe-question${q4Locked ? ' wardrobe-question--locked' : ''}`}>
+                <p className="wardrobe-question-setup">We&rsquo;re pricing WAER now, and your gut reaction genuinely helps.</p>
+                <h2 className="wardrobe-question-hed">
+                  {q1 ? q4Text(q1) : 'Choose your starter wardrobe above to unlock this.'}
+                </h2>
+                <div className="wardrobe-answers">
+                  {Q4_ANSWERS.map(a => (
+                    <button
+                      key={a}
+                      className={`wardrobe-answer${q4 === a ? ' wardrobe-answer--selected' : ''}`}
+                      onClick={() => { if (!q4Locked) setQ4(a) }}
+                      disabled={q4Locked}
+                      aria-disabled={q4Locked}
+                    >{a}</button>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Q5 – optional free text */}
             <section className="wardrobe-question">
