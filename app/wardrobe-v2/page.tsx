@@ -32,7 +32,7 @@ export default function WardrobeV2Page() {
   const [q3, setQ3] = useState<string | null>(null)
   const [q4, setQ4] = useState<string | null>(null)
   const [q5, setQ5] = useState('')
-  const [klaviyoId, setKlaviyoId] = useState<string | null>(null)
+  const [email, setEmail] = useState<string | null>(null)
   const [name, setName] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -40,9 +40,8 @@ export default function WardrobeV2Page() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const rawId = params.get('id')
-    // "None" is what Klaviyo's {{ person.id }} resolves to when unset
-    setKlaviyoId(rawId && rawId !== 'None' ? rawId : null)
+    const rawEmail = params.get('email')
+    setEmail(rawEmail ? decodeURIComponent(rawEmail) : null)
     setName(sanitiseName(params.get('name')))
   }, [])
 
@@ -71,7 +70,7 @@ export default function WardrobeV2Page() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          klaviyo_id: klaviyoId,
+          email,
           q1_starter: q1,
           q2_subscription: q2,
           q2b_benefit: q2b ?? null,

@@ -54,6 +54,36 @@ export async function fireVoteEvent(email: string, choices: string[]): Promise<v
   console.error('[klaviyo] fireVoteEvent failed', res.status, await res.text())
 }
 
+export async function fireKlaviyoEventByEmail(
+  email: string,
+  eventName: string,
+  properties: Record<string, string | null | undefined>
+): Promise<void> {
+  const apiKey = process.env.KLAVIYO_API_KEY
+  if (!apiKey) {
+    if (process.env.NODE_ENV === 'development') { console.warn('[klaviyo] KLAVIYO_API_KEY not set'); return }
+    return
+  }
+
+  const res = await fetch('https://a.klaviyo.com/api/events/', {
+    method: 'POST',
+    headers: klaviyoHeaders(apiKey),
+    body: JSON.stringify({
+      data: {
+        type: 'event',
+        attributes: {
+          metric: { data: { type: 'metric', attributes: { name: eventName } } },
+          profile: { data: { type: 'profile', attributes: { email } } },
+          properties,
+        },
+      },
+    }),
+  })
+
+  if (res.status === 202 || res.ok) return
+  console.error(`[klaviyo] fireKlaviyoEventByEmail(${eventName}) failed`, res.status, await res.text())
+}
+
 export async function fireKlaviyoEventById(
   klaviyoId: string,
   eventName: string,
