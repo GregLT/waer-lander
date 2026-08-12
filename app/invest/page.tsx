@@ -57,11 +57,11 @@ export default function InvestPage() {
 
       <footer className="invest-footer">
         <Image
-          src="/assets/WAER_Wordmark_Black.png"
+          src="/assets/WAER_Wordmark_White.png"
           alt="WAER"
           width={3000}
           height={734}
-          style={{ height: 11, width: 'auto', opacity: 0.55 }}
+          className="invest-footer-logo"
         />
         <span>© WAER 2026 — Made in UK</span>
       </footer>
