@@ -4,7 +4,11 @@ import { useState, type FormEvent } from 'react'
 
 const MIN_AMOUNT = 5000
 
-export default function InvestForm() {
+interface Props {
+  onSubmitted?: () => void
+}
+
+export default function InvestForm({ onSubmitted }: Props) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [amount, setAmount] = useState('')
@@ -43,6 +47,7 @@ export default function InvestForm() {
       }
 
       setSubmitted(true)
+      onSubmitted?.()
     } catch {
       setError('Something went wrong. Please try again.')
     } finally {

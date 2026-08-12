@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import InvestForm from '@/components/InvestForm'
+import InvestSection from '@/components/InvestSection'
 
 export const metadata: Metadata = {
   title: 'Own a Piece of WAER — Investor Interest',
@@ -26,18 +26,7 @@ export default function InvestPage() {
         <img src="/assets/invest-banner.png" alt="Own a Piece of WAER" />
       </section>
 
-      <section className="invest-hero">
-        <div className="invest-hero-eyebrow">Investor Interest</div>
-        <h1 className="invest-hero-hed">Reserve your allocation</h1>
-        <p className="invest-intro">
-          Tell us a little about yourself and how much you&rsquo;d like to invest, and our team
-          will follow up with next steps.
-        </p>
-      </section>
-
-      <section className="invest-form-wrap">
-        <InvestForm />
-      </section>
+      <InvestSection />
 
       <section className="invest-disclaimer">
         <p>
