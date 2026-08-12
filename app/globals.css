@@ -994,7 +994,7 @@ footer {
 }
 
 .invest-banner {
-  aspect-ratio: 6 / 1;
+  aspect-ratio: 10 / 3;
   overflow: hidden;
 }
 .invest-banner img {
@@ -1002,10 +1002,6 @@ footer {
   height: 100%;
   object-fit: cover;
   object-position: center;
-}
-
-@media (max-width: 900px) {
-  .invest-banner { aspect-ratio: 3 / 1; }
 }
 
 .invest-hero {
