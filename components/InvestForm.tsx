@@ -53,7 +53,7 @@ export default function InvestForm() {
   if (submitted) {
     return (
       <p className="invest-success">
-        Thanks — we&rsquo;ve received your interest and will follow up by email.
+        Thank you for your interest in WAER, we will be in touch shortly with more information.
       </p>
     )
   }
