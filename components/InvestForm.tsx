@@ -92,7 +92,7 @@ export default function InvestForm({ onSubmitted }: Props) {
       </div>
 
       <div className="invest-field">
-        <label htmlFor="invest-amount">Investment amount (minimum £{MIN_AMOUNT.toLocaleString('en-GB')})</label>
+        <label htmlFor="invest-amount">Potential investment amount (minimum £{MIN_AMOUNT.toLocaleString('en-GB')})</label>
         <div className="invest-amount-wrap">
           <span className="invest-currency">£</span>
           <input
