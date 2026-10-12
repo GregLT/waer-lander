@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import Image from 'next/image'
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
-const VOUCHER_CODE = 'YOUR_CODE_HERE'
+const VOUCHER_CODE = 'SURVEY20'
 
 // ─── QUESTION DATA ────────────────────────────────────────────────────────────
 interface Opt { k: string; label: string; hasText?: boolean; fixed?: boolean }
