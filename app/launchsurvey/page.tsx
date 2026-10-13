@@ -403,8 +403,8 @@ function ThanksScreen({ copied, onCopy }: { copied: boolean; onCopy: () => void 
       <div style={{ width:52, height:52, border:'2px solid var(--accent)', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'var(--accent)', marginBottom:28 }}>
         <svg width="22" height="16" viewBox="0 0 22 16" fill="none"><path d="M2 8L8 14L20 2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </div>
-      <h2 style={{ ...s.heading, marginBottom:8 }}>Thank you, this genuinely helps.</h2>
-      <p style={{ ...s.body, marginBottom:28 }}>Here's a little something from us:</p>
+      <h2 style={{ ...s.heading, marginBottom:8 }}>Thank you for taking the time to share your thoughts about WAER.</h2>
+      <p style={{ ...s.body, marginBottom:28 }}>Here's a little thank you from us - 20% off your next order.</p>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:16, padding:'18px 20px', border:'1px solid rgba(0,0,0,0.15)', borderRadius:4, background:'rgba(0,0,0,0.04)', width:'100%', maxWidth:380 }}>
         <span style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:700, letterSpacing:'0.18em', textTransform:'uppercase' }}>{VOUCHER_CODE}</span>
         <button style={s.btnCopy} onClick={onCopy}>{copied ? 'Copied' : 'Copy'}</button>
