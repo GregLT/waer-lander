@@ -302,40 +302,60 @@ export default function LaunchSurvey() {
   if (!orders) return <div style={{ minHeight:'100vh', background:'var(--color-bg)' }} />
 
   return (
-    <div style={{ minHeight:'100vh', background:'var(--color-bg)', color:'var(--color-text)' }}>
-      {screen !== 'intro' && screen !== 'thanks' && screen !== 'done' && (
-        <div style={{ height:2, background:'rgba(0,0,0,0.08)', position:'sticky', top:0, zIndex:20 }}>
-          <div style={{ height:'100%', background:'var(--accent)', width:`${PROGRESS[screen]}%`, transition:'width 0.35s ease' }} />
-        </div>
-      )}
-      <div style={{ maxWidth:560, margin:'0 auto', padding:'0 20px' }}>
-        {screen !== 'intro' && screen !== 'thanks' && screen !== 'done' && (
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'20px 0 0' }}>
-            <Image src="/assets/WAER_Wordmark_Black.png" alt="WAER" width={80} height={28} style={{ objectFit:'contain', height:28, width:'auto' }} />
-            <span style={{ fontFamily:'var(--font-display)', fontSize:11, letterSpacing:'0.1em', textTransform:'uppercase', color:'var(--color-text-40)' }}>{STEP_LABEL[screen] || ''}</span>
-          </div>
-        )}
+    <>
+      <style>{`
+        .survey-img-panel { display: none; }
+        @media (min-width: 768px) { .survey-img-panel { display: block; } }
+      `}</style>
+      <div style={{ minHeight:'100vh', display:'flex', background:'var(--color-bg)', color:'var(--color-text)' }}>
+        {/* Left: survey */}
+        <div style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column' }}>
+          {screen !== 'intro' && screen !== 'thanks' && screen !== 'done' && (
+            <div style={{ height:2, background:'rgba(0,0,0,0.08)', position:'sticky', top:0, zIndex:20 }}>
+              <div style={{ height:'100%', background:'var(--accent)', width:`${PROGRESS[screen]}%`, transition:'width 0.35s ease' }} />
+            </div>
+          )}
+          <div style={{ maxWidth:540, width:'100%', padding:'0 clamp(20px,5vw,56px)' }}>
+            {screen !== 'intro' && screen !== 'thanks' && screen !== 'done' && (
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'20px 0 0' }}>
+                <Image src="/assets/WAER_Wordmark_Black.png" alt="WAER" width={80} height={28} style={{ objectFit:'contain', height:28, width:'auto' }} />
+                <span style={{ fontFamily:'var(--font-display)', fontSize:11, letterSpacing:'0.1em', textTransform:'uppercase', color:'var(--color-text-40)' }}>{STEP_LABEL[screen] || ''}</span>
+              </div>
+            )}
 
-        {screen === 'intro'    && <IntroScreen    onStart={() => { startedAtRef.current = Date.now(); setScreen('q1') }} />}
-        {screen === 'done'     && <AlreadyDone />}
-        {screen === 'thanks'   && <ThanksScreen copied={copied} onCopy={() => { navigator.clipboard.writeText(VOUCHER_CODE).catch(() => {}); setCopied(true) }} />}
-        {screen === 'q1'       && <Q1  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q2'       && <Q2  answers={answers} opts={orders.q2} onNext={a => advance(a)} />}
-        {screen === 'q3'       && <Q3  answers={answers} opts={orders.q3} onNext={a => advance(a)} />}
-        {screen === 'q4'       && <Q4  answers={answers} onNext={a => { const buyer = a.q4 === 'yes'; setIsBuyer(buyer); go(buyer ? 'q5_yes' : 'q5_no', a) }} />}
-        {screen === 'q5_no'    && <Q5no  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q6_no'    && <Q6no  answers={answers} opts={orders.q6} onNext={a => { const next = nextFrom('q6_no'); go(next, a) }} />}
-        {screen === 'q6a'      && <Q6a  answers={answers} onNext={a => { const next = nextFrom('q6a'); go(next, a) }} />}
-        {screen === 'q6b'      && <Q6b  answers={answers} onNext={a => { const next = nextFrom('q6b'); go(next, a) }} onSkip={skip} />}
-        {screen === 'q6c'      && <Q6c  answers={answers} opts={orders.q6c} onNext={a => advance(a)} />}
-        {screen === 'q7_no'    && <Q7no  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q5_yes'   && <Q5yes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q6d_yes'  && <Q6dyes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q8'       && <Q8  answers={answers} opts={orders.q8} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q9'       && <Q9  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-        {screen === 'q10'      && <Q10 answers={answers} onNext={a => { go('thanks', a, false) }} onSkip={() => go('thanks', answers, false)} />}
+            {screen === 'intro'    && <IntroScreen    onStart={() => { startedAtRef.current = Date.now(); setScreen('q1') }} />}
+            {screen === 'done'     && <AlreadyDone />}
+            {screen === 'thanks'   && <ThanksScreen copied={copied} onCopy={() => { navigator.clipboard.writeText(VOUCHER_CODE).catch(() => {}); setCopied(true) }} />}
+            {screen === 'q1'       && <Q1  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q2'       && <Q2  answers={answers} opts={orders.q2} onNext={a => advance(a)} />}
+            {screen === 'q3'       && <Q3  answers={answers} opts={orders.q3} onNext={a => advance(a)} />}
+            {screen === 'q4'       && <Q4  answers={answers} onNext={a => { const buyer = a.q4 === 'yes'; setIsBuyer(buyer); go(buyer ? 'q5_yes' : 'q5_no', a) }} />}
+            {screen === 'q5_no'    && <Q5no  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q6_no'    && <Q6no  answers={answers} opts={orders.q6} onNext={a => { const next = nextFrom('q6_no'); go(next, a) }} />}
+            {screen === 'q6a'      && <Q6a  answers={answers} onNext={a => { const next = nextFrom('q6a'); go(next, a) }} />}
+            {screen === 'q6b'      && <Q6b  answers={answers} onNext={a => { const next = nextFrom('q6b'); go(next, a) }} onSkip={skip} />}
+            {screen === 'q6c'      && <Q6c  answers={answers} opts={orders.q6c} onNext={a => advance(a)} />}
+            {screen === 'q7_no'    && <Q7no  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q5_yes'   && <Q5yes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q6d_yes'  && <Q6dyes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q8'       && <Q8  answers={answers} opts={orders.q8} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q9'       && <Q9  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
+            {screen === 'q10'      && <Q10 answers={answers} onNext={a => { go('thanks', a, false) }} onSkip={() => go('thanks', answers, false)} />}
+          </div>
+        </div>
+
+        {/* Right: sticky image panel */}
+        <div className="survey-img-panel" style={{ width:'42%', flexShrink:0, position:'sticky', top:0, height:'100vh', overflow:'hidden' }}>
+          <Image
+            src="/assets/art-direction-vial-2.jpg"
+            alt=""
+            fill
+            style={{ objectFit:'cover', objectPosition:'center' }}
+            priority
+          />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 
