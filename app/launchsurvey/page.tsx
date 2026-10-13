@@ -154,6 +154,7 @@ export default function LaunchSurvey() {
   const [orders, setOrders] = useState<Orders | null>(null)
   const [isBuyer, setIsBuyer] = useState<boolean | null>(null)
   const [copied, setCopied] = useState(false)
+  const historyRef = useRef<Screen[]>([])
 
   const respondentIdRef = useRef<string>('')
   const startedAtRef    = useRef<number>(0)
@@ -261,8 +262,14 @@ export default function LaunchSurvey() {
     }
   }
 
+  function goBack() {
+    const prev = historyRef.current.pop()
+    if (prev) { setScreen(prev); window.scrollTo(0, 0) }
+  }
+
   function go(to: Screen, updatedAnswers?: Answers, partial = true) {
     const merged = updatedAnswers ? updatedAnswers : answers
+    historyRef.current.push(screen)
     setAnswers(merged)
     setScreen(to)
     window.scrollTo(0, 0)
@@ -318,7 +325,15 @@ export default function LaunchSurvey() {
           <div style={{ maxWidth:540, width:'100%', padding:'0 clamp(20px,5vw,56px)' }}>
             {screen !== 'intro' && screen !== 'thanks' && screen !== 'done' && (
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'20px 0 0' }}>
-                <Image src="/assets/WAER_Wordmark_Black.png" alt="WAER" width={80} height={28} style={{ objectFit:'contain', height:28, width:'auto' }} />
+                <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+                  {historyRef.current.length > 0 && (
+                    <button onClick={goBack} style={{ background:'none', border:'none', padding:0, cursor:'pointer', color:'var(--color-text-40)', display:'flex', alignItems:'center', gap:6, fontFamily:'var(--font-display)', fontSize:11, letterSpacing:'0.08em', textTransform:'uppercase' }}>
+                      <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M5 1L1 5L5 9M1 5H13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      Back
+                    </button>
+                  )}
+                  <Image src="/assets/WAER_Wordmark_Black.png" alt="WAER" width={80} height={28} style={{ objectFit:'contain', height:28, width:'auto' }} />
+                </div>
                 <span style={{ fontFamily:'var(--font-display)', fontSize:11, letterSpacing:'0.1em', textTransform:'uppercase', color:'var(--color-text-40)' }}>{STEP_LABEL[screen] || ''}</span>
               </div>
             )}
