@@ -256,8 +256,7 @@ export default function LaunchSurvey() {
       case 'q5_yes':  return 'q6d_yes'
       case 'q6d_yes': return 'q8'
       case 'q8':      return 'q9'
-      case 'q9':      return 'q10'
-      case 'q10':     return 'thanks'
+      case 'q9':      return 'thanks'
       default:        return 'thanks'
     }
   }
@@ -354,8 +353,7 @@ export default function LaunchSurvey() {
             {screen === 'q5_yes'   && <Q5yes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
             {screen === 'q6d_yes'  && <Q6dyes  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
             {screen === 'q8'       && <Q8  answers={answers} opts={orders.q8} onNext={a => advance(a)} onSkip={skip} />}
-            {screen === 'q9'       && <Q9  answers={answers} onNext={a => advance(a)} onSkip={skip} />}
-            {screen === 'q10'      && <Q10 answers={answers} onNext={a => { go('thanks', a, false) }} onSkip={() => go('thanks', answers, false)} />}
+            {screen === 'q9'       && <Q9  answers={answers} onNext={a => { go('thanks', a, false) }} onSkip={() => go('thanks', answers, false)} />}
           </div>
         </div>
 
