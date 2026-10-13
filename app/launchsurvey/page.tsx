@@ -420,7 +420,7 @@ function ThanksScreen({ copied, onCopy }: { copied: boolean; onCopy: () => void 
 function Q1({ answers, onNext, onSkip }: { answers: Answers; onNext: (a: Answers) => void; onSkip: () => void }) {
   const [val, setVal] = useState(answers.q1 || '')
   return (
-    <QWrap section="About you" heading="What first made you look at WAER?" sub="Take your time. A few words is fine.">
+    <QWrap section="About you" heading="Where did you hear about WAER?" sub="Take your time. A few words is fine.">
       <textarea style={s.textarea} placeholder="Type anything..." value={val} onChange={e => setVal(e.target.value)} />
       <NavRow onNext={() => onNext({ ...answers, q1: val })} onSkip={onSkip} />
     </QWrap>
